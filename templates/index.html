@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InstantLegal AI | Professional Legal Documents in Minutes</title>
+    <title>{{ _('InstantLegal AI | Professional Legal Documents in Minutes') }}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
@@ -687,18 +687,18 @@
     <div class="loading-overlay" id="loading-overlay">
         <div class="loading-content">
             <div class="loading-icon">⚖️</div>
-            <h3 class="loading-title">Generating Your Legal Document</h3>
-            <p class="loading-subtitle">Our AI is crafting a custom document tailored to your needs.</p>
+            <h3 class="loading-title">{{ _('Generating Your Legal Document') }}</h3>
+            <p class="loading-subtitle">{{ _('Our AI is crafting a custom document tailored to your needs.') }}</p>
             
             <div class="loading-progress">
                 <div class="loading-progress-bar"></div>
             </div>
             
             <div class="loading-catchphrase">
-                "Turning legal jargon into plain English..."
+                {{ _('Turning legal jargon into plain English...') }}
             </div>
             
-            <p class="loading-time">This may take up to 2 minutes. Thank you for your patience!</p>
+            <p class="loading-time">{{ _('This may take up to 2 minutes. Thank you for your patience!') }}</p>
         </div>
     </div>
     
@@ -711,7 +711,7 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        100% Money-Back Guarantee
+                        {{ _('100% Money-Back Guarantee') }}
                     </div>
                 </a>
             </div>
@@ -722,8 +722,8 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1>AI-Generated Legal Documents<br>Tailored to Your Business</h1>
-                    <p class="subtitle">Our AI technology creates custom legal documents instantly. No lawyers, no waiting, no excessive fees. Get exactly what you need in minutes, not days.</p>
+                    <h1>{{ _('AI-Generated Legal Documents<br>Tailored to Your Business') }}</h1>
+                    <p class="subtitle">{{ _('Our AI technology creates custom legal documents instantly. No lawyers, no waiting, no excessive fees. Get exactly what you need in minutes, not days.') }}</p>
                     
                     <div class="features">
                         <div class="feature">
@@ -732,7 +732,7 @@
                                     <path d="M5 13L9 17L19 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <div>AI-Powered Customization for Your Specific Business</div>
+                            <div>{{ _('AI-Powered Customization for Your Specific Business') }}</div>
                         </div>
                         <div class="feature">
                             <div class="feature-icon">
@@ -740,7 +740,7 @@
                                     <path d="M5 13L9 17L19 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <div>Instant Download - Ready in 2 Minutes</div>
+                            <div>{{ _('Instant Download - Ready in 2 Minutes') }}</div>
                         </div>
                         <div class="feature">
                             <div class="feature-icon">
@@ -748,7 +748,7 @@
                                     <path d="M5 13L9 17L19 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <div>Save $500+ Compared to Traditional Legal Services</div>
+                            <div>{{ _('Save $500+ Compared to Traditional Legal Services') }}</div>
                         </div>
                         <div class="feature">
                             <div class="feature-icon">
@@ -756,220 +756,220 @@
                                     <path d="M5 13L9 17L19 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <div>State-Specific Legal Compliance Built In</div>
+                            <div>{{ _('State-Specific Legal Compliance Built In') }}</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="hero-form">
-                    <h2 class="form-title">Generate Your Custom Legal Document</h2>
+                    <h2 class="form-title">{{ _('Generate Your Custom Legal Document') }}</h2>
                     
                     <div class="special-offer-timer">
-                        <div class="timer-label">24-HOUR SPECIAL PRICE ENDS IN:</div>
+                        <div class="timer-label">{{ _('24-HOUR SPECIAL PRICE ENDS IN:') }}</div>
                         <div class="timer-display">
                             <div class="timer-unit">
                                 <div class="timer-value" id="hours">07</div>
-                                <div class="timer-label">HOURS</div>
+                                <div class="timer-label">{{ _('HOURS') }}</div>
                             </div>
                             <div class="timer-unit">
                                 <div class="timer-value" id="minutes">23</div>
-                                <div class="timer-label">MINS</div>
+                                <div class="timer-label">{{ _('MINS') }}</div>
                             </div>
                             <div class="timer-unit">
                                 <div class="timer-value" id="seconds">45</div>
-                                <div class="timer-label">SECS</div>
+                                <div class="timer-label">{{ _('SECS') }}</div>
                             </div>
                         </div>
                     </div>
                     
                     <form id="document-form">
                     <div class="form-group">
-                        <label for="document-type">Document Type</label>
+                        <label for="document-type">{{ _('Document Type') }}</label>
                         <select id="document-type" name="document_type" required>
-                            <option value="">Select document type...</option>
+                            <option value="">{{ _('Select document type...') }}</option>
                             {% for key, value in document_types.items() %}
-                            <option value="{{ key }}">{{ value }}</option>
+                            <option value="{{ key }}">{{ _(value) }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="business-name">Business Name</label>
-                            <input type="text" id="business-name" name="business_name" placeholder="Enter your business name" required>
+                            <label for="business-name">{{ _('Business Name') }}</label>
+                            <input type="text" id="business-name" name="business_name" placeholder="{{ _('Enter your business name') }}" required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="business-type">Business Type</label>
+                            <label for="business-type">{{ _('Business Type') }}</label>
                             <select id="business-type" name="business_type" required>
-                                <option value="">Select business type...</option>
-                                <option value="Sole Proprietorship">Sole Proprietorship</option>
-                                <option value="LLC">LLC</option>
-                                <option value="Corporation">Corporation</option>
-                                <option value="Partnership">Partnership</option>
-                                <option value="Non-Profit">Non-Profit</option>
+                                <option value="">{{ _('Select business type...') }}</option>
+                                <option value="Sole Proprietorship">{{ _('Sole Proprietorship') }}</option>
+                                <option value="LLC">{{ _('LLC') }}</option>
+                                <option value="Corporation">{{ _('Corporation') }}</option>
+                                <option value="Partnership">{{ _('Partnership') }}</option>
+                                <option value="Non-Profit">{{ _('Non-Profit') }}</option>
                             </select>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="state">State/Jurisdiction</label>
+                        <label for="state">{{ _('State/Jurisdiction') }}</label>
                         <select id="state" name="state" required>
-                            <option value="">Select state...</option>
-                            <option value="Alabama">Alabama</option>
-                            <option value="Alaska">Alaska</option>
-                            <option value="Arizona">Arizona</option>
-                            <option value="Arkansas">Arkansas</option>
-                            <option value="California">California</option>
-                            <option value="Colorado">Colorado</option>
-                            <option value="Connecticut">Connecticut</option>
-                            <option value="Delaware">Delaware</option>
-                            <option value="Florida">Florida</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Hawaii">Hawaii</option>
-                            <option value="Idaho">Idaho</option>
-                            <option value="Illinois">Illinois</option>
-                            <option value="Indiana">Indiana</option>
-                            <option value="Iowa">Iowa</option>
-                            <option value="Kansas">Kansas</option>
-                            <option value="Kentucky">Kentucky</option>
-                            <option value="Louisiana">Louisiana</option>
-                            <option value="Maine">Maine</option>
-                            <option value="Maryland">Maryland</option>
-                            <option value="Massachusetts">Massachusetts</option>
-                            <option value="Michigan">Michigan</option>
-                            <option value="Minnesota">Minnesota</option>
-                            <option value="Mississippi">Mississippi</option>
-                            <option value="Missouri">Missouri</option>
-                            <option value="Montana">Montana</option>
-                            <option value="Nebraska">Nebraska</option>
-                            <option value="Nevada">Nevada</option>
-                            <option value="New Hampshire">New Hampshire</option>
-                            <option value="New Jersey">New Jersey</option>
-                            <option value="New Mexico">New Mexico</option>
-                            <option value="New York">New York</option>
-                            <option value="North Carolina">North Carolina</option>
-                            <option value="North Dakota">North Dakota</option>
-                            <option value="Ohio">Ohio</option>
-                            <option value="Oklahoma">Oklahoma</option>
-                            <option value="Oregon">Oregon</option>
-                            <option value="Pennsylvania">Pennsylvania</option>
-                            <option value="Rhode Island">Rhode Island</option>
-                            <option value="South Carolina">South Carolina</option>
-                            <option value="South Dakota">South Dakota</option>
-                            <option value="Tennessee">Tennessee</option>
-                            <option value="Texas">Texas</option>
-                            <option value="Utah">Utah</option>
-                            <option value="Vermont">Vermont</option>
-                            <option value="Virginia">Virginia</option>
-                            <option value="Washington">Washington</option>
-                            <option value="West Virginia">West Virginia</option>
-                            <option value="Wisconsin">Wisconsin</option>
-                            <option value="Wyoming">Wyoming</option>
-                            <option value="District of Columbia">District of Columbia</option>
+                            <option value="">{{ _('Select state...') }}</option>
+                            <option value="Alabama">{{ _('Alabama') }}</option>
+                            <option value="Alaska">{{ _('Alaska') }}</option>
+                            <option value="Arizona">{{ _('Arizona') }}</option>
+                            <option value="Arkansas">{{ _('Arkansas') }}</option>
+                            <option value="California">{{ _('California') }}</option>
+                            <option value="Colorado">{{ _('Colorado') }}</option>
+                            <option value="Connecticut">{{ _('Connecticut') }}</option>
+                            <option value="Delaware">{{ _('Delaware') }}</option>
+                            <option value="Florida">{{ _('Florida') }}</option>
+                            <option value="Georgia">{{ _('Georgia') }}</option>
+                            <option value="Hawaii">{{ _('Hawaii') }}</option>
+                            <option value="Idaho">{{ _('Idaho') }}</option>
+                            <option value="Illinois">{{ _('Illinois') }}</option>
+                            <option value="Indiana">{{ _('Indiana') }}</option>
+                            <option value="Iowa">{{ _('Iowa') }}</option>
+                            <option value="Kansas">{{ _('Kansas') }}</option>
+                            <option value="Kentucky">{{ _('Kentucky') }}</option>
+                            <option value="Louisiana">{{ _('Louisiana') }}</option>
+                            <option value="Maine">{{ _('Maine') }}</option>
+                            <option value="Maryland">{{ _('Maryland') }}</option>
+                            <option value="Massachusetts">{{ _('Massachusetts') }}</option>
+                            <option value="Michigan">{{ _('Michigan') }}</option>
+                            <option value="Minnesota">{{ _('Minnesota') }}</option>
+                            <option value="Mississippi">{{ _('Mississippi') }}</option>
+                            <option value="Missouri">{{ _('Missouri') }}</option>
+                            <option value="Montana">{{ _('Montana') }}</option>
+                            <option value="Nebraska">{{ _('Nebraska') }}</option>
+                            <option value="Nevada">{{ _('Nevada') }}</option>
+                            <option value="New Hampshire">{{ _('New Hampshire') }}</option>
+                            <option value="New Jersey">{{ _('New Jersey') }}</option>
+                            <option value="New Mexico">{{ _('New Mexico') }}</option>
+                            <option value="New York">{{ _('New York') }}</option>
+                            <option value="North Carolina">{{ _('North Carolina') }}</option>
+                            <option value="North Dakota">{{ _('North Dakota') }}</option>
+                            <option value="Ohio">{{ _('Ohio') }}</option>
+                            <option value="Oklahoma">{{ _('Oklahoma') }}</option>
+                            <option value="Oregon">{{ _('Oregon') }}</option>
+                            <option value="Pennsylvania">{{ _('Pennsylvania') }}</option>
+                            <option value="Rhode Island">{{ _('Rhode Island') }}</option>
+                            <option value="South Carolina">{{ _('South Carolina') }}</option>
+                            <option value="South Dakota">{{ _('South Dakota') }}</option>
+                            <option value="Tennessee">{{ _('Tennessee') }}</option>
+                            <option value="Texas">{{ _('Texas') }}</option>
+                            <option value="Utah">{{ _('Utah') }}</option>
+                            <option value="Vermont">{{ _('Vermont') }}</option>
+                            <option value="Virginia">{{ _('Virginia') }}</option>
+                            <option value="Washington">{{ _('Washington') }}</option>
+                            <option value="West Virginia">{{ _('West Virginia') }}</option>
+                            <option value="Wisconsin">{{ _('Wisconsin') }}</option>
+                            <option value="Wyoming">{{ _('Wyoming') }}</option>
+                            <option value="District of Columbia">{{ _('District of Columbia') }}</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="industry">Industry</label>
+                        <label for="industry">{{ _('Industry') }}</label>
                         <select id="industry" name="industry" required>
-                            <option value="">Select industry...</option>
-                            <option value="Technology/Software">Technology/Software</option>
-                            <option value="E-commerce/Retail">E-commerce/Retail</option>
-                            <option value="Healthcare">Healthcare</option>
-                            <option value="Financial Services">Financial Services</option>
-                            <option value="Education">Education</option>
-                            <option value="Consulting">Consulting</option>
-                            <option value="Marketing/Advertising">Marketing/Advertising</option>
-                            <option value="Manufacturing">Manufacturing</option>
-                            <option value="Construction">Construction</option>
-                            <option value="Food Service">Food Service</option>
-                            <option value="Entertainment">Entertainment</option>
-                            <option value="Other">Other</option>
+                            <option value="">{{ _('Select industry...') }}</option>
+                            <option value="Technology/Software">{{ _('Technology/Software') }}</option>
+                            <option value="E-commerce/Retail">{{ _('E-commerce/Retail') }}</option>
+                            <option value="Healthcare">{{ _('Healthcare') }}</option>
+                            <option value="Financial Services">{{ _('Financial Services') }}</option>
+                            <option value="Education">{{ _('Education') }}</option>
+                            <option value="Consulting">{{ _('Consulting') }}</option>
+                            <option value="Marketing/Advertising">{{ _('Marketing/Advertising') }}</option>
+                            <option value="Manufacturing">{{ _('Manufacturing') }}</option>
+                            <option value="Construction">{{ _('Construction') }}</option>
+                            <option value="Food Service">{{ _('Food Service') }}</option>
+                            <option value="Entertainment">{{ _('Entertainment') }}</option>
+                            <option value="Other">{{ _('Other') }}</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label>Document Protection Level</label>
+                        <label>{{ _('Document Protection Level') }}</label>
                         <input type="range" min="1" max="3" value="2" class="range-slider" id="protection-level" name="protection_level">
                         <div class="slider-labels">
-                            <span>Standard</span>
-                            <span>Comprehensive</span>
-                            <span>Maximum</span>
+                            <span>{{ _('Standard') }}</span>
+                            <span>{{ _('Comprehensive') }}</span>
+                            <span>{{ _('Maximum') }}</span>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label>Special Clauses (Optional)</label>
+                        <label>{{ _('Special Clauses (Optional)') }}</label>
                         <div class="checkbox-group">
                             <div class="checkbox-item">
                                 <input type="checkbox" id="clause-confidentiality" name="clause_confidentiality">
-                                <label for="clause-confidentiality">Enhanced Confidentiality</label>
+                                <label for="clause-confidentiality">{{ _('Enhanced Confidentiality') }}</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="clause-arbitration" name="clause_arbitration">
-                                <label for="clause-arbitration">Arbitration Provision</label>
+                                <label for="clause-arbitration">{{ _('Arbitration Provision') }}</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="clause-termination" name="clause_termination">
-                                <label for="clause-termination">Advanced Termination Options</label>
+                                <label for="clause-termination">{{ _('Advanced Termination Options') }}</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="clause-ip" name="clause_ip">
-                                <label for="clause-ip">Intellectual Property Protection</label>
+                                <label for="clause-ip">{{ _('Intellectual Property Protection') }}</label>
                             </div>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="additional-instructions">Additional Instructions (Optional)</label>
-                        <textarea id="additional-instructions" name="additional_instructions" rows="4" placeholder="Enter any specific requirements, details, or custom clauses you'd like to include in your document..."></textarea>
+                        <label for="additional-instructions">{{ _('Additional Instructions (Optional)') }}</label>
+                        <textarea id="additional-instructions" name="additional_instructions" rows="4" placeholder="{{ _('Enter any specific requirements, details, or custom clauses you\'d like to include in your document...') }}"></textarea>
                     </div>
                     
                     <div class="pricing-section">
                         <div class="price-display">
                             <span class="price-amount">$99</span>
-                            <span class="price-period">per document</span>
+                            <span class="price-period">{{ _('per document') }}</span>
                         </div>
-                        <div class="price-original">Regular price: $199 - Save 50% today!</div>
+                        <div class="price-original">{{ _('Regular price: $199 - Save 50% today!') }}</div>
                         <div class="price-features">
                             <div class="price-feature">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5 13L9 17L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                Enhanced document customization
+                                {{ _('Enhanced document customization') }}
                             </div>
                             <div class="price-feature">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5 13L9 17L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                PDF + Word formats
+                                {{ _('PDF + Word formats') }}
                             </div>
                             <div class="price-feature">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5 13L9 17L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                1 free revision
+                                {{ _('1 free revision') }}
                             </div>
                             <div class="price-feature">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5 13L9 17L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                Special clauses included
+                                {{ _('Special clauses included') }}
                             </div>
                         </div>
-                        <div class="limited-offer">Only 14 documents remaining at this price today!</div>
+                        <div class="limited-offer">{{ _('Only 14 documents remaining at this price today!') }}</div>
                     </div>
                     
-                    <div class="success-message" style="display: none;">Your document has been generated successfully!</div>
-                    <div class="error-message" style="display: none;">There was an error processing your request.</div>
+                    <div class="success-message" style="display: none;">{{ _('Your document has been generated successfully!') }}</div>
+                    <div class="error-message" style="display: none;">{{ _('There was an error processing your request.') }}</div>
                     
                     <button type="submit" class="submit-btn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 8V16M12 16L8 12M12 16L16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        Generate Document Now
+                        {{ _('Generate Document Now') }}
                     </button>
                     </form>
                 </div>
@@ -980,32 +980,32 @@
     <!-- How It Works Section -->
     <section class="how-it-works">
         <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Our AI-powered system creates professional legal documents in just minutes</p>
+            <h2 class="section-title">{{ _('How It Works') }}</h2>
+            <p class="section-subtitle">{{ _('Our AI-powered system creates professional legal documents in just minutes') }}</p>
             
             <div class="steps-container">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3>Select Document Type</h3>
-                    <p>Choose from our library of professional legal documents</p>
+                    <h3>{{ _('Select Document Type') }}</h3>
+                    <p>{{ _('Choose from our library of professional legal documents') }}</p>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3>Enter Your Details</h3>
-                    <p>Provide your business information and requirements</p>
+                    <h3>{{ _('Enter Your Details') }}</h3>
+                    <p>{{ _('Provide your business information and requirements') }}</p>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>AI Customization</h3>
-                    <p>Our AI tailors the document to your specific needs</p>
+                    <h3>{{ _('AI Customization') }}</h3>
+                    <p>{{ _('Our AI tailors the document to your specific needs') }}</p>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">4</div>
-                    <h3>Download & Use</h3>
-                    <p>Get your document instantly and ready to use</p>
+                    <h3>{{ _('Download & Use') }}</h3>
+                    <p>{{ _('Get your document instantly and ready to use') }}</p>
                 </div>
             </div>
         </div>
@@ -1014,7 +1014,7 @@
     <!-- The InstantLegal AI Advantage Section -->
     <section class="advantages">
         <div class="container">
-            <h2 class="section-title">The InstantLegal AI Advantage</h2>
+            <h2 class="section-title">{{ _('The InstantLegal AI Advantage') }}</h2>
             
             <div class="advantages-grid">
                 <div class="advantage-card">
@@ -1023,8 +1023,8 @@
                             <path d="M12 4V20M20 12H4" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Save Thousands in Legal Fees</h3>
-                    <p>Our AI-generated documents cost a fraction of what lawyers charge. Get the same quality without the hefty price tag.</p>
+                    <h3>{{ _('Save Thousands in Legal Fees') }}</h3>
+                    <p>{{ _('Our AI-generated documents cost a fraction of what lawyers charge. Get the same quality without the hefty price tag.') }}</p>
                 </div>
                 
                 <div class="advantage-card">
@@ -1033,8 +1033,8 @@
                             <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Ready in 2 Minutes</h3>
-                    <p>No waiting days or weeks for a lawyer to draft your document. Our AI generates it instantly, ready for immediate use.</p>
+                    <h3>{{ _('Ready in 2 Minutes') }}</h3>
+                    <p>{{ _('No waiting days or weeks for a lawyer to draft your document. Our AI generates it instantly, ready for immediate use.') }}</p>
                 </div>
                 
                 <div class="advantage-card">
@@ -1043,8 +1043,8 @@
                             <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>State-Specific Legal Compliance</h3>
-                    <p>All documents are created following current legal standards for your specific state, providing you with the protection you need.</p>
+                    <h3>{{ _('State-Specific Legal Compliance') }}</h3>
+                    <p>{{ _('All documents are created following current legal standards for your specific state, providing you with the protection you need.') }}</p>
                 </div>
                 
                 <div class="advantage-card">
@@ -1053,8 +1053,8 @@
                             <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Industry-Specific Customization</h3>
-                    <p>Not a generic template. Each document is tailored to your specific industry, business type, and requirements.</p>
+                    <h3>{{ _('Industry-Specific Customization') }}</h3>
+                    <p>{{ _('Not a generic template. Each document is tailored to your specific industry, business type, and requirements.') }}</p>
                 </div>
                 
                 <div class="advantage-card">
@@ -1063,8 +1063,8 @@
                             <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Plain Language</h3>
-                    <p>No complex legal jargon. Our documents are written in clear, straightforward language that both parties can understand.</p>
+                    <h3>{{ _('Plain Language') }}</h3>
+                    <p>{{ _('No complex legal jargon. Our documents are written in clear, straightforward language that both parties can understand.') }}</p>
                 </div>
                 
                 <div class="advantage-card">
@@ -1073,8 +1073,8 @@
                             <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Secure & Confidential</h3>
-                    <p>Your business information is encrypted and secure. We never share your data with third parties.</p>
+                    <h3>{{ _('Secure & Confidential') }}</h3>
+                    <p>{{ _('Your business information is encrypted and secure. We never share your data with third parties.') }}</p>
                 </div>
             </div>
         </div>
@@ -1083,90 +1083,90 @@
     <!-- Sample Document Previews Section -->
     <section class="document-previews">
         <div class="container">
-            <h2 class="section-title">Sample Document Previews</h2>
-            <p class="section-subtitle">See the quality of our AI-generated legal documents</p>
+            <h2 class="section-title">{{ _('Sample Document Previews') }}</h2>
+            <p class="section-subtitle">{{ _('See the quality of our AI-generated legal documents') }}</p>
             
             <div class="tabs">
-                <button class="tab-button active" data-tab="nda">Non-Disclosure Agreement</button>
-                <button class="tab-button" data-tab="terms">Terms of Service</button>
-                <button class="tab-button" data-tab="privacy">Privacy Policy</button>
-                <button class="tab-button" data-tab="freelance">Freelance Contract</button>
+                <button class="tab-button active" data-tab="nda">{{ _('Non-Disclosure Agreement') }}</button>
+                <button class="tab-button" data-tab="terms">{{ _('Terms of Service') }}</button>
+                <button class="tab-button" data-tab="privacy">{{ _('Privacy Policy') }}</button>
+                <button class="tab-button" data-tab="freelance">{{ _('Freelance Contract') }}</button>
             </div>
             
             <div class="tab-content active" id="nda-content">
                 <div class="document-preview">
-                    <div class="watermark">SAMPLE</div>
-                    <h3>NON-DISCLOSURE AGREEMENT</h3>
-                    <p>This Non-Disclosure Agreement (the "Agreement") is entered into by and between [Company Name], a [State] [Business Type] ("Disclosing Party") and the recipient identified below ("Receiving Party"), collectively referred to as the "Parties."</p>
+                    <div class="watermark">{{ _('SAMPLE') }}</div>
+                    <h3>{{ _('NON-DISCLOSURE AGREEMENT') }}</h3>
+                    <p>{{ _('This Non-Disclosure Agreement (the "Agreement") is entered into by and between [Company Name], a [State] [Business Type] ("Disclosing Party") and the recipient identified below ("Receiving Party"), collectively referred to as the "Parties."') }}</p>
                     
-                    <h4>1. PURPOSE</h4>
-                    <p>The Parties wish to explore a potential business relationship in connection with [specific business purpose]. During this exploration, Disclosing Party may share certain proprietary and confidential information with Receiving Party. This Agreement is intended to prevent the unauthorized disclosure of Confidential Information.</p>
+                    <h4>{{ _('1. PURPOSE') }}</h4>
+                    <p>{{ _('The Parties wish to explore a potential business relationship in connection with [specific business purpose]. During this exploration, Disclosing Party may share certain proprietary and confidential information with Receiving Party. This Agreement is intended to prevent the unauthorized disclosure of Confidential Information.') }}</p>
                     
-                    <h4>2. DEFINITION OF CONFIDENTIAL INFORMATION</h4>
-                    <p>For purposes of this Agreement, "Confidential Information" includes all information or material that has or could have commercial value or other utility in the business in which Disclosing Party is engaged. If Confidential Information is in written form, the Disclosing Party shall label or stamp the materials with the word "Confidential" or some similar warning. If Confidential Information is transmitted orally, the Disclosing Party shall promptly provide a writing indicating that such oral communication constituted Confidential Information.</p>
+                    <h4>{{ _('2. DEFINITION OF CONFIDENTIAL INFORMATION') }}</h4>
+                    <p>{{ _('For purposes of this Agreement, "Confidential Information" includes all information or material that has or could have commercial value or other utility in the business in which Disclosing Party is engaged. If Confidential Information is in written form, the Disclosing Party shall label or stamp the materials with the word "Confidential" or some similar warning. If Confidential Information is transmitted orally, the Disclosing Party shall promptly provide a writing indicating that such oral communication constituted Confidential Information.') }}</p>
                     
-                    <h4>3. EXCLUSIONS FROM CONFIDENTIAL INFORMATION</h4>
-                    <p>Receiving Party's obligations under this Agreement do not extend to information that is: (a) publicly known at the time of disclosure or subsequently becomes publicly known through no fault of the Receiving Party; (b) discovered or created by the Receiving Party before disclosure by Disclosing Party; (c) learned by the Receiving Party through legitimate means other than from the Disclosing Party or Disclosing Party's representatives; or (d) is disclosed by Receiving Party with Disclosing Party's prior written approval.</p>
+                    <h4>{{ _('3. EXCLUSIONS FROM CONFIDENTIAL INFORMATION') }}</h4>
+                    <p>{{ _('Receiving Party\'s obligations under this Agreement do not extend to information that is: (a) publicly known at the time of disclosure or subsequently becomes publicly known through no fault of the Receiving Party; (b) discovered or created by the Receiving Party before disclosure by Disclosing Party; (c) learned by the Receiving Party through legitimate means other than from the Disclosing Party or Disclosing Party\'s representatives; or (d) is disclosed by Receiving Party with Disclosing Party\'s prior written approval.') }}</p>
                 </div>
             </div>
             
             <div class="tab-content" id="terms-content">
                 <div class="document-preview">
-                    <div class="watermark">SAMPLE</div>
-                    <h3>TERMS OF SERVICE</h3>
-                    <p>These Terms of Service ("Terms") govern your access to and use of [Company Name]'s website, products, and services ("Services"). Please read these Terms carefully, and contact us if you have any questions.</p>
+                    <div class="watermark">{{ _('SAMPLE') }}</div>
+                    <h3>{{ _('TERMS OF SERVICE') }}</h3>
+                    <p>{{ _('These Terms of Service ("Terms") govern your access to and use of [Company Name]\'s website, products, and services ("Services"). Please read these Terms carefully, and contact us if you have any questions.') }}</p>
                     
-                    <h4>1. ACCEPTANCE OF TERMS</h4>
-                    <p>By accessing or using our Services, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not access or use the Services.</p>
+                    <h4>{{ _('1. ACCEPTANCE OF TERMS') }}</h4>
+                    <p>{{ _('By accessing or using our Services, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not access or use the Services.') }}</p>
                     
-                    <h4>2. CHANGES TO TERMS OR SERVICES</h4>
-                    <p>We reserve the right to modify these Terms at any time. We will provide notice of any material changes by posting the new Terms on our site and updating the "Last Updated" date. Your continued use of the Services after such changes constitutes your acceptance of the new Terms.</p>
+                    <h4>{{ _('2. CHANGES TO TERMS OR SERVICES') }}</h4>
+                    <p>{{ _('We reserve the right to modify these Terms at any time. We will provide notice of any material changes by posting the new Terms on our site and updating the "Last Updated" date. Your continued use of the Services after such changes constitutes your acceptance of the new Terms.') }}</p>
                     
-                    <h4>3. USER ACCOUNTS</h4>
-                    <p>When you create an account with us, you must provide accurate, complete, and current information. You are responsible for safeguarding your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use of your account.</p>
+                    <h4>{{ _('3. USER ACCOUNTS') }}</h4>
+                    <p>{{ _('When you create an account with us, you must provide accurate, complete, and current information. You are responsible for safeguarding your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use of your account.') }}</p>
                     
-                    <h4>4. INTELLECTUAL PROPERTY RIGHTS</h4>
-                    <p>The Services and their contents, features, and functionality are owned by [Company Name] and are protected by copyright, trademark, and other intellectual property laws. You may not use our intellectual property without our prior written consent.</p>
+                    <h4>{{ _('4. INTELLECTUAL PROPERTY RIGHTS') }}</h4>
+                    <p>{{ _('The Services and their contents, features, and functionality are owned by [Company Name] and are protected by copyright, trademark, and other intellectual property laws. You may not use our intellectual property without our prior written consent.') }}</p>
                 </div>
             </div>
             
             <div class="tab-content" id="privacy-content">
                 <div class="document-preview">
-                    <div class="watermark">SAMPLE</div>
-                    <h3>PRIVACY POLICY</h3>
-                    <p>This Privacy Policy describes how [Company Name] ("we", "us", or "our") collects, uses, and shares information about you when you use our website, products, and services (collectively, the "Services").</p>
+                    <div class="watermark">{{ _('SAMPLE') }}</div>
+                    <h3>{{ _('PRIVACY POLICY') }}</h3>
+                    <p>{{ _('This Privacy Policy describes how [Company Name] ("we", "us", or "our") collects, uses, and shares information about you when you use our website, products, and services (collectively, the "Services").') }}</p>
                     
-                    <h4>1. INFORMATION WE COLLECT</h4>
-                    <p>We collect information you provide directly to us, such as when you create an account, fill out a form, or communicate with us. This may include your name, email address, postal address, phone number, and payment information.</p>
+                    <h4>{{ _('1. INFORMATION WE COLLECT') }}</h4>
+                    <p>{{ _('We collect information you provide directly to us, such as when you create an account, fill out a form, or communicate with us. This may include your name, email address, postal address, phone number, and payment information.') }}</p>
                     
-                    <h4>2. HOW WE USE YOUR INFORMATION</h4>
-                    <p>We use the information we collect to provide, maintain, and improve our Services, to process transactions, to send you technical notices and support messages, to communicate with you about products, services, offers, and events, and for other purposes with your consent.</p>
+                    <h4>{{ _('2. HOW WE USE YOUR INFORMATION') }}</h4>
+                    <p>{{ _('We use the information we collect to provide, maintain, and improve our Services, to process transactions, to send you technical notices and support messages, to communicate with you about products, services, offers, and events, and for other purposes with your consent.') }}</p>
                     
-                    <h4>3. SHARING OF INFORMATION</h4>
-                    <p>We may share your information with third-party vendors, service providers, and other business partners who need access to such information to carry out work on our behalf. We may also share information in response to a legal request if we believe disclosure is required by law.</p>
+                    <h4>{{ _('3. SHARING OF INFORMATION') }}</h4>
+                    <p>{{ _('We may share your information with third-party vendors, service providers, and other business partners who need access to such information to carry out work on our behalf. We may also share information in response to a legal request if we believe disclosure is required by law.') }}</p>
                     
-                    <h4>4. DATA SECURITY</h4>
-                    <p>We take reasonable measures to help protect information about you from loss, theft, misuse, unauthorized access, disclosure, alteration, and destruction. However, no security system is impenetrable, and we cannot guarantee the security of our systems.</p>
+                    <h4>{{ _('4. DATA SECURITY') }}</h4>
+                    <p>{{ _('We take reasonable measures to help protect information about you from loss, theft, misuse, unauthorized access, disclosure, alteration, and destruction. However, no security system is impenetrable, and we cannot guarantee the security of our systems.') }}</p>
                 </div>
             </div>
             
             <div class="tab-content" id="freelance-content">
                 <div class="document-preview">
-                    <div class="watermark">SAMPLE</div>
-                    <h3>FREELANCE CONTRACT</h3>
-                    <p>This Freelance Contract ("Contract") is entered into by and between [Client Name], with a principal place of business at [Client Address] ("Client") and [Freelancer Name], with a principal place of business at [Freelancer Address] ("Freelancer").</p>
+                    <div class="watermark">{{ _('SAMPLE') }}</div>
+                    <h3>{{ _('FREELANCE CONTRACT') }}</h3>
+                    <p>{{ _('This Freelance Contract ("Contract") is entered into by and between [Client Name], with a principal place of business at [Client Address] ("Client") and [Freelancer Name], with a principal place of business at [Freelancer Address] ("Freelancer").') }}</p>
                     
-                    <h4>1. SERVICES</h4>
-                    <p>Freelancer agrees to perform the following services for Client: [detailed description of services]. Freelancer shall complete the services according to the timeline and milestones set forth in Exhibit A, attached hereto and incorporated by reference.</p>
+                    <h4>{{ _('1. SERVICES') }}</h4>
+                    <p>{{ _('Freelancer agrees to perform the following services for Client: [detailed description of services]. Freelancer shall complete the services according to the timeline and milestones set forth in Exhibit A, attached hereto and incorporated by reference.') }}</p>
                     
-                    <h4>2. COMPENSATION</h4>
-                    <p>Client agrees to pay Freelancer [rate/fee structure] for the services. Payment shall be made as follows: [payment schedule]. Client shall reimburse Freelancer for the following expenses: [list of reimbursable expenses, if any].</p>
+                    <h4>{{ _('2. COMPENSATION') }}</h4>
+                    <p>{{ _('Client agrees to pay Freelancer [rate/fee structure] for the services. Payment shall be made as follows: [payment schedule]. Client shall reimburse Freelancer for the following expenses: [list of reimbursable expenses, if any].') }}</p>
                     
-                    <h4>3. INTELLECTUAL PROPERTY RIGHTS</h4>
-                    <p>Upon receipt of full payment, Freelancer assigns to Client all right, title, and interest in the deliverables, including all intellectual property rights. Freelancer shall retain ownership of any pre-existing materials used in the deliverables.</p>
+                    <h4>{{ _('3. INTELLECTUAL PROPERTY RIGHTS') }}</h4>
+                    <p>{{ _('Upon receipt of full payment, Freelancer assigns to Client all right, title, and interest in the deliverables, including all intellectual property rights. Freelancer shall retain ownership of any pre-existing materials used in the deliverables.') }}</p>
                     
-                    <h4>4. INDEPENDENT CONTRACTOR STATUS</h4>
-                    <p>Freelancer is an independent contractor, not an employee of Client. Freelancer is responsible for all taxes, insurance, and benefits. Nothing in this Contract shall be construed as creating an employer-employee relationship.</p>
+                    <h4>{{ _('4. INDEPENDENT CONTRACTOR STATUS') }}</h4>
+                    <p>{{ _('Freelancer is an independent contractor, not an employee of Client. Freelancer is responsible for all taxes, insurance, and benefits. Nothing in this Contract shall be construed as creating an employer-employee relationship.') }}</p>
                 </div>
             </div>
         </div>
@@ -1175,42 +1175,42 @@
     <!-- Customer Testimonials Section -->
     <section class="testimonials">
         <div class="container">
-            <h2 class="section-title">What Our Customers Say</h2>
-            <p class="section-subtitle">Join thousands of satisfied business owners who trust InstantLegal AI</p>
+            <h2 class="section-title">{{ _('What Our Customers Say') }}</h2>
+            <p class="section-subtitle">{{ _('Join thousands of satisfied business owners who trust InstantLegal AI') }}</p>
             
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <p class="quote">"I needed an NDA urgently for a client meeting the next day. InstantLegal AI delivered a perfectly customized document in minutes. Saved me at least $400 in legal fees and the document was actually better than what my previous lawyer provided!"</p>
+                    <p class="quote">{{ _('"I needed an NDA urgently for a client meeting the next day. InstantLegal AI delivered a perfectly customized document in minutes. Saved me at least $400 in legal fees and the document was actually better than what my previous lawyer provided!"') }}</p>
                     <div class="testimonial-author">
                         <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80');"></div>
                         <div class="author-info">
-                            <h4>Michael Thompson</h4>
-                            <p>Marketing Agency Owner</p>
+                            <h4>{{ _('Michael Thompson') }}</h4>
+                            <p>{{ _('Marketing Agency Owner') }}</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <p class="quote">"As a startup founder, legal costs were eating into our budget. This service has been a game-changer - professional documents at a fraction of the cost and available instantly. The state-specific compliance was exactly what we needed."</p>
+                    <p class="quote">{{ _('"As a startup founder, legal costs were eating into our budget. This service has been a game-changer - professional documents at a fraction of the cost and available instantly. The state-specific compliance was exactly what we needed."') }}</p>
                     <div class="testimonial-author">
                         <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80');"></div>
                         <div class="author-info">
-                            <h4>Sarah Johnson</h4>
-                            <p>Tech Startup CEO</p>
+                            <h4>{{ _('Sarah Johnson') }}</h4>
+                            <p>{{ _('Tech Startup CEO') }}</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <p class="quote">"I was skeptical about AI-generated legal documents, but the quality exceeded my expectations. Clean, professional, and tailored specifically to my e-commerce business in California. I've now used it for 3 different documents - all perfect."</p>
+                    <p class="quote">{{ _('"I was skeptical about AI-generated legal documents, but the quality exceeded my expectations. Clean, professional, and tailored specifically to my e-commerce business in California. I\'ve now used it for 3 different documents - all perfect."') }}</p>
                     <div class="testimonial-author">
                         <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80');"></div>
                         <div class="author-info">
-                            <h4>David Chen</h4>
-                            <p>E-commerce Entrepreneur</p>
+                            <h4>{{ _('David Chen') }}</h4>
+                            <p>{{ _('E-commerce Entrepreneur') }}</p>
                         </div>
                     </div>
                 </div>
@@ -1221,87 +1221,87 @@
     <!-- Frequently Asked Questions Section -->
     <section class="faq">
         <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="section-subtitle">Everything you need to know about our AI-generated legal documents</p>
+            <h2 class="section-title">{{ _('Frequently Asked Questions') }}</h2>
+            <p class="section-subtitle">{{ _('Everything you need to know about our AI-generated legal documents') }}</p>
             
             <div class="faq-grid">
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>Are these documents legally binding?</h3>
+                        <h3>{{ _('Are these documents legally binding?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes, our AI-generated documents are legally binding when properly executed by all parties. They are created using the same legal principles and requirements that attorneys use when drafting documents.</p>
+                        <p>{{ _('Yes, our AI-generated documents are legally binding when properly executed by all parties. They are created using the same legal principles and requirements that attorneys use when drafting documents.') }}</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>Is my information secure?</h3>
+                        <h3>{{ _('Is my information secure?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Absolutely. We use bank-level encryption to protect your data. We never share your information with third parties, and your documents are only accessible to you.</p>
+                        <p>{{ _('Absolutely. We use bank-level encryption to protect your data. We never share your information with third parties, and your documents are only accessible to you.') }}</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>How quickly will I receive my document?</h3>
+                        <h3>{{ _('How quickly will I receive my document?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Most documents are generated within 2 minutes. Once generated, you can download them immediately.</p>
+                        <p>{{ _('Most documents are generated within 2 minutes. Once generated, you can download them immediately.') }}</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>What if I need a document type not listed?</h3>
+                        <h3>{{ _('What if I need a document type not listed?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Contact our support team, and we'll work to add your requested document type to our system. We're constantly expanding our document library based on customer needs.</p>
+                        <p>{{ _('Contact our support team, and we\'ll work to add your requested document type to our system. We\'re constantly expanding our document library based on customer needs.') }}</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>Can I edit the document after receiving it?</h3>
+                        <h3>{{ _('Can I edit the document after receiving it?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes, all documents are delivered in editable PDF format. You can make any necessary adjustments before finalizing.</p>
+                        <p>{{ _('Yes, all documents are delivered in editable PDF format. You can make any necessary adjustments before finalizing.') }}</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>Do I need a lawyer to review these documents?</h3>
+                        <h3>{{ _('Do I need a lawyer to review these documents?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>While our documents are legally sound, for complex situations or high-stakes agreements, we recommend having an attorney review the final document. Our service provides a professional starting point that can save significant legal costs.</p>
+                        <p>{{ _('While our documents are legally sound, for complex situations or high-stakes agreements, we recommend having an attorney review the final document. Our service provides a professional starting point that can save significant legal costs.') }}</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>What makes your AI-generated documents better than templates?</h3>
+                        <h3>{{ _('What makes your AI-generated documents better than templates?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Unlike generic templates, our AI customizes each document to your specific business needs, industry requirements, and state laws. The documents are more comprehensive, relevant, and legally sound than one-size-fits-all templates.</p>
+                        <p>{{ _('Unlike generic templates, our AI customizes each document to your specific business needs, industry requirements, and state laws. The documents are more comprehensive, relevant, and legally sound than one-size-fits-all templates.') }}</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>What's included in the Money-Back Guarantee?</h3>
+                        <h3>{{ _('What\'s included in the Money-Back Guarantee?') }}</h3>
                         <div class="faq-toggle">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>If you're not satisfied with your document for any reason, contact us within 30 days of purchase for a full refund. No questions asked.</p>
+                        <p>{{ _('If you\'re not satisfied with your document for any reason, contact us within 30 days of purchase for a full refund. No questions asked.') }}</p>
                     </div>
                 </div>
             </div>
@@ -1429,7 +1429,7 @@
         }
         
         .advantage-card p {
-            color: var(--gray);
+            color: var (--gray);
             font-size: 1rem;
             line-height: 1.6;
         }
@@ -1664,7 +1664,7 @@
             // Show loading state
             const submitButton = document.querySelector('.submit-btn');
             const originalButtonText = submitButton.innerHTML;
-            submitButton.innerHTML = 'Processing...';
+            submitButton.innerHTML = '{{ _('Processing...') }}';
             submitButton.disabled = true;
             
             // Get form data
@@ -1695,7 +1695,7 @@
                 });
             } catch (error) {
                 console.error('Error:', error);
-                document.querySelector('.error-message').textContent = error.message || 'An error occurred. Please try again.';
+                document.querySelector('.error-message').textContent = error.message || '{{ _('An error occurred. Please try again.') }}';
                 document.querySelector('.error-message').style.display = 'block';
                 
                 // Reset button
@@ -1747,37 +1747,37 @@
             <div class="footer-content">
                 <div>
                     <a href="#" class="footer-logo">Instant<span>Legal</span>AI</a>
-                    <p class="footer-description">AI-powered legal documents for modern businesses. Save time, reduce costs, and get the legal protection you need.</p>
+                    <p class="footer-description">{{ _('AI-powered legal documents for modern businesses. Save time, reduce costs, and get the legal protection you need.') }}</p>
                 </div>
                 
                 <div>
-                    <h3 class="footer-title">Documents</h3>
+                    <h3 class="footer-title">{{ _('Documents') }}</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Non-Disclosure Agreement</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Freelance Contract</a></li>
-                        <li><a href="#">Employment Agreement</a></li>
+                        <li><a href="#">{{ _('Non-Disclosure Agreement') }}</a></li>
+                        <li><a href="#">{{ _('Terms of Service') }}</a></li>
+                        <li><a href="#">{{ _('Privacy Policy') }}</a></li>
+                        <li><a href="#">{{ _('Freelance Contract') }}</a></li>
+                        <li><a href="#">{{ _('Employment Agreement') }}</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h3 class="footer-title">Company</h3>
+                    <h3 class="footer-title">{{ _('Company') }}</h3>
                     <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">How It Works</a></li>
-                        <li><a href="#">Testimonials</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">{{ _('About Us') }}</a></li>
+                        <li><a href="#">{{ _('How It Works') }}</a></li>
+                        <li><a href="#">{{ _('Testimonials') }}</a></li>
+                        <li><a href="#">{{ _('Contact') }}</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h3 class="footer-title">Legal</h3>
+                    <h3 class="footer-title">{{ _('Legal') }}</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">Disclaimer</a></li>
+                        <li><a href="#">{{ _('Terms of Service') }}</a></li>
+                        <li><a href="#">{{ _('Privacy Policy') }}</a></li>
+                        <li><a href="#">{{ _('Cookie Policy') }}</a></li>
+                        <li><a href="#">{{ _('Disclaimer') }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -1785,22 +1785,22 @@
             <div class="trust-features">
                 <div class="feature-box">
                     <div class="feature-icon">✓</div>
-                    <div class="feature-text">Secure Payment</div>
+                    <div class="feature-text">{{ _('Secure Payment') }}</div>
                 </div>
                 
                 <div class="feature-box">
                     <div class="feature-icon">🔒</div>
-                    <div class="feature-text">Privacy Protected</div>
+                    <div class="feature-text">{{ _('Privacy Protected') }}</div>
                 </div>
                 
                 <div class="feature-box">
                     <div class="feature-icon">⏰</div>
-                    <div class="feature-text">24/7 Support</div>
+                    <div class="feature-text">{{ _('24/7 Support') }}</div>
                 </div>
             </div>
             
             <div class="copyright">
-                © 2023 InstantLegal AI. All rights reserved.
+                © 2023 InstantLegal AI. {{ _('All rights reserved.') }}
             </div>
         </div>
     </footer>
