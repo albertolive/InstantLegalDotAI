@@ -120,6 +120,29 @@ pybabel compile -d translations
 
 8. Restart your Flask application to apply the new translations.
 
+## Running the App with Multiple Languages on Render
+
+To run the app with multiple languages on Render, follow these steps:
+
+1. Ensure that your `requirements.txt` includes `Flask-Babel`:
+```
+Flask-Babel==3.0.0
+```
+
+2. Make sure your `app.py` is configured to use Flask-Babel as shown in the previous section.
+
+3. Add the following environment variables to your Render service settings:
+```
+FLASK_APP=app.py
+FLASK_ENV=production
+OPENAI_API_KEY=your_openai_api_key_here
+SECRET_KEY=your_secret_key_here
+```
+
+4. Deploy your app on Render. Render will automatically detect the `requirements.txt` and install the necessary dependencies.
+
+5. Once deployed, your app will be accessible with support for multiple languages based on user preferences.
+
 ## License
 
 MIT
