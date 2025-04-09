@@ -1,4 +1,4 @@
-# Spanish translations for PROJECT.
+# English translations for PROJECT.
 # Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
@@ -10,8 +10,8 @@ msgstr ""
 "POT-Creation-Date: 2025-04-09 15:39+0200\n"
 "PO-Revision-Date: 2025-04-09 15:39+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: es\n"
-"Language-Team: es <LL@li.org>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,123 +20,126 @@ msgstr ""
 
 #: templates/index.html:6
 msgid "InstantLegal AI | Professional Legal Documents in Minutes"
-msgstr "InstantLegal AI | Documentos Legales Profesionales en Minutos"
+msgstr ""
 
 #: templates/index.html:690
 msgid "Generating Your Legal Document"
-msgstr "Generando Tu Documento Legal"
+msgstr ""
 
 #: templates/index.html:691
 msgid "Our AI is crafting a custom document tailored to your needs."
-msgstr "Nuestra IA está creando un documento personalizado adaptado a tus necesidades."
+msgstr ""
 
 #: templates/index.html:698 templates/payment_return.html:205
 msgid "Turning legal jargon into plain English..."
-msgstr "Convirtiendo la jerga legal en español sencillo..."
+msgstr ""
 
 #: templates/index.html:701 templates/payment_return.html:175
 msgid "This may take up to 2 minutes. Thank you for your patience!"
-msgstr "Esto puede tardar hasta 2 minutos. ¡Gracias por tu paciencia!"
+msgstr ""
 
 #: templates/index.html:714
-msgid "100%% Money-Back Guarantee"
-msgstr "Garantía de Devolución del 100%%"
+msgid "100% Money-Back Guarantee"
+msgstr ""
 
 #: templates/index.html:725
 msgid "AI-Generated Legal Documents<br>Tailored to Your Business"
-msgstr "Documentos Legales Generados por IA<br>Adaptados a Tu Negocio"
+msgstr ""
 
 #: templates/index.html:726
-msgid "Our AI technology creates custom legal documents instantly. No lawyers, no waiting, no excessive fees. Get exactly what you need in minutes, not days."
-msgstr "Nuestra tecnología de IA crea documentos legales personalizados al instante. Sin abogados, sin esperas, sin tarifas excesivas. Obtén exactamente lo que necesitas en minutos, no en días."
+msgid ""
+"Our AI technology creates custom legal documents instantly. No lawyers, "
+"no waiting, no excessive fees. Get exactly what you need in minutes, not "
+"days."
+msgstr ""
 
 #: templates/index.html:735
 msgid "AI-Powered Customization for Your Specific Business"
-msgstr "Personalización Impulsada por IA para Tu Negocio Específico"
+msgstr ""
 
 #: templates/index.html:743
 msgid "Instant Download - Ready in 2 Minutes"
-msgstr "Descarga Instantánea - Listo en 2 Minutos"
+msgstr ""
 
 #: templates/index.html:751
 msgid "Save $500+ Compared to Traditional Legal Services"
-msgstr "Ahorra $500+ en Comparación con Servicios Legales Tradicionales"
+msgstr ""
 
 #: templates/index.html:759
 msgid "State-Specific Legal Compliance Built In"
-msgstr "Cumplimiento Legal Específico por Estado Incorporado"
+msgstr ""
 
 #: templates/index.html:765
 msgid "Generate Your Custom Legal Document"
-msgstr "Genera Tu Documento Legal Personalizado"
+msgstr ""
 
 #: templates/index.html:768
 msgid "24-HOUR SPECIAL PRICE ENDS IN:"
-msgstr "LA OFERTA ESPECIAL DE 24 HORAS TERMINA EN:"
+msgstr ""
 
 #: templates/index.html:772
 msgid "HOURS"
-msgstr "HORAS"
+msgstr ""
 
 #: templates/index.html:776
 msgid "MINS"
-msgstr "MINS"
+msgstr ""
 
 #: templates/index.html:780
 msgid "SECS"
-msgstr "SEGS"
+msgstr ""
 
 #: templates/index.html:787
 msgid "Document Type"
-msgstr "Tipo de Documento"
+msgstr ""
 
 #: templates/index.html:789
 msgid "Select document type..."
-msgstr "Selecciona el tipo de documento..."
+msgstr ""
 
 #: templates/index.html:798
 msgid "Business Name"
-msgstr "Nombre del Negocio"
+msgstr ""
 
 #: templates/index.html:799
 msgid "Enter your business name"
-msgstr "Ingresa el nombre de tu negocio"
+msgstr ""
 
 #: templates/index.html:803
 msgid "Business Type"
-msgstr "Tipo de Negocio"
+msgstr ""
 
 #: templates/index.html:805
 msgid "Select business type..."
-msgstr "Selecciona el tipo de negocio..."
+msgstr ""
 
 #: templates/index.html:806
 msgid "Sole Proprietorship"
-msgstr "Empresario Individual"
+msgstr ""
 
 #: templates/index.html:807
 msgid "LLC"
-msgstr "Sociedad de Responsabilidad Limitada"
+msgstr ""
 
 #: templates/index.html:808
 msgid "Corporation"
-msgstr "Corporación"
+msgstr ""
 
 #: templates/index.html:809
 msgid "Partnership"
-msgstr "Sociedad"
+msgstr ""
 
 #: templates/index.html:810
 msgid "Non-Profit"
-msgstr "Organización Sin Fines de Lucro"
+msgstr ""
 
 #: templates/index.html:816
 msgid "State/Jurisdiction"
-msgstr "Estado/Jurisdicción"
+msgstr ""
 
 #: templates/index.html:818
 msgid "Select state..."
-msgstr "Selecciona el estado..."
+msgstr ""
 
 #: templates/index.html:819
 msgid "Alabama"
@@ -449,8 +452,8 @@ msgid "per document"
 msgstr ""
 
 #: templates/index.html:934
-msgid "Regular price: $199 - Save 50%% today!"
-msgstr "Precio regular: $199 - ¡Ahorre 50%% hoy!"
+msgid "Regular price: $199 - Save 50% today!"
+msgstr ""
 
 #: templates/index.html:940
 msgid "Enhanced document customization"
