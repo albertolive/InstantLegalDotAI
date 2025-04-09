@@ -78,6 +78,10 @@ babel = Babel(app)
 def get_locale():
     return request.accept_languages.best_match(['en', 'es'])
 
+@babel.timezoneselector
+def get_timezone():
+    return 'UTC'
+
 @app.route('/')
 def index():
     return render_template('index.html', document_types=DOCUMENT_TYPES, stripe_key=STRIPE_PUBLISHABLE_KEY)

@@ -614,3 +614,87 @@ msgstr "¿Qué incluye la garantía de devolución del dinero?"
 
 msgid "If you're not satisfied with your document for any reason, contact us within 30 days of purchase for a full refund. No questions asked."
 msgstr "Si no está satisfecho con su documento por cualquier motivo, contáctenos dentro de los 30 días posteriores a la compra para obtener un reembolso completo. Sin preguntas."
+
+msgid "Processing Payment - InstantLegal AI"
+msgstr "Procesando pago - InstantLegal AI"
+
+msgid "Processing Your Payment"
+msgstr "Procesando su pago"
+
+msgid "Verifying payment and preparing your document..."
+msgstr "Verificando el pago y preparando su documento..."
+
+msgid "This may take up to 2 minutes. Thank you for your patience!"
+msgstr "Esto puede tardar hasta 2 minutos. ¡Gracias por su paciencia!"
+
+msgid "Your document has been generated successfully! Click here to download"
+msgstr "¡Su documento ha sido generado con éxito! Haga clic aquí para descargar"
+
+msgid "There was an error generating your document. Please try again."
+msgstr "Hubo un error al generar su documento. Por favor, inténtelo de nuevo."
+
+msgid "Return to Home"
+msgstr "Volver a inicio"
+
+msgid "Turning legal jargon into plain English..."
+msgstr "Convirtiendo la jerga legal en inglés simple..."
+
+msgid "Objection overruled! Your document is being prepared..."
+msgstr "¡Objeción denegada! Su documento está siendo preparado..."
+
+msgid "Briefing the AI judge on your requirements..."
+msgstr "Informando al juez de IA sobre sus requisitos..."
+
+msgid "Citing precedents and adding legal pizzazz..."
+msgstr "Citando precedentes y agregando un toque legal..."
+
+msgid "Examining the fine print so you don't have to..."
+msgstr "Examinando la letra pequeña para que usted no tenga que hacerlo..."
+
+msgid "Translating legalese into something actually readable..."
+msgstr "Traduciendo el lenguaje legal en algo realmente legible..."
+
+msgid "Preparing to make opposing counsel jealous..."
+msgstr "Preparándose para hacer que el abogado contrario se ponga celoso..."
+
+msgid "Dotting the i's, crossing the t's, and adding some legal flair..."
+msgstr "Poniendo los puntos sobre las íes, cruzando las t's y agregando un toque legal..."
+
+msgid "Summoning the ghost of legal documents past..."
+msgstr "Invocando al fantasma de los documentos legales pasados..."
+
+msgid "Arguing with the AI about comma placement..."
+msgstr "Discutiendo con la IA sobre la colocación de comas..."
+
+msgid "Deliberating on the perfect legal tone..."
+msgstr "Deliberando sobre el tono legal perfecto..."
+
+msgid "Calling expert witnesses to verify your document..."
+msgstr "Llamando a testigos expertos para verificar su documento..."
+
+msgid "Striking hearsay from the record..."
+msgstr "Eliminando rumores del registro..."
+
+msgid "Preparing closing arguments for your document..."
+msgstr "Preparando los argumentos finales para su documento..."
+
+msgid "Instructing the jury of AI models on your case..."
+msgstr "Instruyendo al jurado de modelos de IA sobre su caso..."
+
+msgid "Server is busy, retrying in"
+msgstr "El servidor está ocupado, reintentando en"
+
+msgid "seconds..."
+msgstr "segundos..."
+
+msgid "Server returned HTML instead of JSON. The server might be overloaded."
+msgstr "El servidor devolvió HTML en lugar de JSON. El servidor podría estar sobrecargado."
+
+msgid "Failed to parse server response. The server might be overloaded."
+msgstr "No se pudo analizar la respuesta del servidor. El servidor podría estar sobrecargado."
+
+msgid "Payment processing error:"
+msgstr "Error en el procesamiento del pago:"
+
+msgid "There was an error processing your payment:"
+msgstr "Hubo un error al procesar su pago:"
