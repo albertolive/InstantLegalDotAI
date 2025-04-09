@@ -15,6 +15,7 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT, TA_RIGHT
 from reportlab.lib import colors
 import stripe
 import time
+from flask_babel import Babel, _
 
 # Load environment variables
 load_dotenv()
@@ -69,6 +70,13 @@ DOCUMENT_TYPES = {
     "employee": "Employment Agreement",
     "partnership": "Partnership Agreement"
 }
+
+# Initialize Babel
+babel = Babel(app)
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(['en', 'es'])
 
 @app.route('/')
 def index():

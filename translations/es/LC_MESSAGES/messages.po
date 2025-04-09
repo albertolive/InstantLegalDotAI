@@ -1,0 +1,616 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "InstantLegal AI | Professional Legal Documents in Minutes"
+msgstr "InstantLegal AI | Documentos legales profesionales en minutos"
+
+msgid "100% Money-Back Guarantee"
+msgstr "Garantía de devolución del 100% del dinero"
+
+msgid "AI-Generated Legal Documents<br>Tailored to Your Business"
+msgstr "Documentos legales generados por IA<br>Adaptados a su negocio"
+
+msgid "Our AI technology creates custom legal documents instantly. No lawyers, no waiting, no excessive fees. Get exactly what you need in minutes, not days."
+msgstr "Nuestra tecnología de IA crea documentos legales personalizados al instante. Sin abogados, sin esperas, sin tarifas excesivas. Obtenga exactamente lo que necesita en minutos, no en días."
+
+msgid "AI-Powered Customization for Your Specific Business"
+msgstr "Personalización impulsada por IA para su negocio específico"
+
+msgid "Instant Download - Ready in 2 Minutes"
+msgstr "Descarga instantánea - Listo en 2 minutos"
+
+msgid "Save $500+ Compared to Traditional Legal Services"
+msgstr "Ahorre más de $500 en comparación con los servicios legales tradicionales"
+
+msgid "State-Specific Legal Compliance Built In"
+msgstr "Cumplimiento legal específico del estado incorporado"
+
+msgid "Generate Your Custom Legal Document"
+msgstr "Genere su documento legal personalizado"
+
+msgid "24-HOUR SPECIAL PRICE ENDS IN:"
+msgstr "EL PRECIO ESPECIAL DE 24 HORAS TERMINA EN:"
+
+msgid "HOURS"
+msgstr "HORAS"
+
+msgid "MINS"
+msgstr "MINUTOS"
+
+msgid "SECS"
+msgstr "SEGUNDOS"
+
+msgid "Document Type"
+msgstr "Tipo de documento"
+
+msgid "Select document type..."
+msgstr "Seleccione el tipo de documento..."
+
+msgid "Business Name"
+msgstr "Nombre del negocio"
+
+msgid "Enter your business name"
+msgstr "Ingrese el nombre de su negocio"
+
+msgid "Business Type"
+msgstr "Tipo de negocio"
+
+msgid "Select business type..."
+msgstr "Seleccione el tipo de negocio..."
+
+msgid "Sole Proprietorship"
+msgstr "Propietario único"
+
+msgid "LLC"
+msgstr "LLC"
+
+msgid "Corporation"
+msgstr "Corporación"
+
+msgid "Partnership"
+msgstr "Sociedad"
+
+msgid "Non-Profit"
+msgstr "Sin fines de lucro"
+
+msgid "State/Jurisdiction"
+msgstr "Estado/Jurisdicción"
+
+msgid "Select state..."
+msgstr "Seleccione el estado..."
+
+msgid "Alabama"
+msgstr "Alabama"
+
+msgid "Alaska"
+msgstr "Alaska"
+
+msgid "Arizona"
+msgstr "Arizona"
+
+msgid "Arkansas"
+msgstr "Arkansas"
+
+msgid "California"
+msgstr "California"
+
+msgid "Colorado"
+msgstr "Colorado"
+
+msgid "Connecticut"
+msgstr "Connecticut"
+
+msgid "Delaware"
+msgstr "Delaware"
+
+msgid "Florida"
+msgstr "Florida"
+
+msgid "Georgia"
+msgstr "Georgia"
+
+msgid "Hawaii"
+msgstr "Hawái"
+
+msgid "Idaho"
+msgstr "Idaho"
+
+msgid "Illinois"
+msgstr "Illinois"
+
+msgid "Indiana"
+msgstr "Indiana"
+
+msgid "Iowa"
+msgstr "Iowa"
+
+msgid "Kansas"
+msgstr "Kansas"
+
+msgid "Kentucky"
+msgstr "Kentucky"
+
+msgid "Louisiana"
+msgstr "Luisiana"
+
+msgid "Maine"
+msgstr "Maine"
+
+msgid "Maryland"
+msgstr "Maryland"
+
+msgid "Massachusetts"
+msgstr "Massachusetts"
+
+msgid "Michigan"
+msgstr "Michigan"
+
+msgid "Minnesota"
+msgstr "Minnesota"
+
+msgid "Mississippi"
+msgstr "Misisipi"
+
+msgid "Missouri"
+msgstr "Misuri"
+
+msgid "Montana"
+msgstr "Montana"
+
+msgid "Nebraska"
+msgstr "Nebraska"
+
+msgid "Nevada"
+msgstr "Nevada"
+
+msgid "New Hampshire"
+msgstr "Nuevo Hampshire"
+
+msgid "New Jersey"
+msgstr "Nueva Jersey"
+
+msgid "New Mexico"
+msgstr "Nuevo México"
+
+msgid "New York"
+msgstr "Nueva York"
+
+msgid "North Carolina"
+msgstr "Carolina del Norte"
+
+msgid "North Dakota"
+msgstr "Dakota del Norte"
+
+msgid "Ohio"
+msgstr "Ohio"
+
+msgid "Oklahoma"
+msgstr "Oklahoma"
+
+msgid "Oregon"
+msgstr "Oregón"
+
+msgid "Pennsylvania"
+msgstr "Pensilvania"
+
+msgid "Rhode Island"
+msgstr "Rhode Island"
+
+msgid "South Carolina"
+msgstr "Carolina del Sur"
+
+msgid "South Dakota"
+msgstr "Dakota del Sur"
+
+msgid "Tennessee"
+msgstr "Tennessee"
+
+msgid "Texas"
+msgstr "Texas"
+
+msgid "Utah"
+msgstr "Utah"
+
+msgid "Vermont"
+msgstr "Vermont"
+
+msgid "Virginia"
+msgstr "Virginia"
+
+msgid "Washington"
+msgstr "Washington"
+
+msgid "West Virginia"
+msgstr "Virginia Occidental"
+
+msgid "Wisconsin"
+msgstr "Wisconsin"
+
+msgid "Wyoming"
+msgstr "Wyoming"
+
+msgid "District of Columbia"
+msgstr "Distrito de Columbia"
+
+msgid "Industry"
+msgstr "Industria"
+
+msgid "Select industry..."
+msgstr "Seleccione la industria..."
+
+msgid "Technology/Software"
+msgstr "Tecnología/Software"
+
+msgid "E-commerce/Retail"
+msgstr "Comercio electrónico/Minorista"
+
+msgid "Healthcare"
+msgstr "Cuidado de la salud"
+
+msgid "Financial Services"
+msgstr "Servicios financieros"
+
+msgid "Education"
+msgstr "Educación"
+
+msgid "Consulting"
+msgstr "Consultoría"
+
+msgid "Marketing/Advertising"
+msgstr "Marketing/Publicidad"
+
+msgid "Manufacturing"
+msgstr "Manufactura"
+
+msgid "Construction"
+msgstr "Construcción"
+
+msgid "Food Service"
+msgstr "Servicio de alimentos"
+
+msgid "Entertainment"
+msgstr "Entretenimiento"
+
+msgid "Other"
+msgstr "Otro"
+
+msgid "Document Protection Level"
+msgstr "Nivel de protección del documento"
+
+msgid "Standard"
+msgstr "Estándar"
+
+msgid "Comprehensive"
+msgstr "Integral"
+
+msgid "Maximum"
+msgstr "Máximo"
+
+msgid "Special Clauses (Optional)"
+msgstr "Cláusulas especiales (opcional)"
+
+msgid "Enhanced Confidentiality"
+msgstr "Confidencialidad mejorada"
+
+msgid "Arbitration Provision"
+msgstr "Cláusula de arbitraje"
+
+msgid "Advanced Termination Options"
+msgstr "Opciones avanzadas de terminación"
+
+msgid "Intellectual Property Protection"
+msgstr "Protección de la propiedad intelectual"
+
+msgid "Additional Instructions (Optional)"
+msgstr "Instrucciones adicionales (opcional)"
+
+msgid "Enter any specific requirements, details, or custom clauses you'd like to include in your document..."
+msgstr "Ingrese cualquier requisito específico, detalle o cláusula personalizada que le gustaría incluir en su documento..."
+
+msgid "per document"
+msgstr "por documento"
+
+msgid "Regular price: $199 - Save 50% today!"
+msgstr "Precio regular: $199 - ¡Ahorre un 50% hoy!"
+
+msgid "Enhanced document customization"
+msgstr "Personalización mejorada del documento"
+
+msgid "PDF + Word formats"
+msgstr "Formatos PDF + Word"
+
+msgid "1 free revision"
+msgstr "1 revisión gratuita"
+
+msgid "Special clauses included"
+msgstr "Cláusulas especiales incluidas"
+
+msgid "Only 14 documents remaining at this price today!"
+msgstr "¡Solo quedan 14 documentos a este precio hoy!"
+
+msgid "Your document has been generated successfully!"
+msgstr "¡Su documento ha sido generado con éxito!"
+
+msgid "There was an error processing your request."
+msgstr "Hubo un error al procesar su solicitud."
+
+msgid "Generate Document Now"
+msgstr "Generar documento ahora"
+
+msgid "How It Works"
+msgstr "Cómo funciona"
+
+msgid "Our AI-powered system creates professional legal documents in just minutes"
+msgstr "Nuestro sistema impulsado por IA crea documentos legales profesionales en solo minutos"
+
+msgid "Select Document Type"
+msgstr "Seleccione el tipo de documento"
+
+msgid "Choose from our library of professional legal documents"
+msgstr "Elija de nuestra biblioteca de documentos legales profesionales"
+
+msgid "Enter Your Details"
+msgstr "Ingrese sus datos"
+
+msgid "Provide your business information and requirements"
+msgstr "Proporcione la información y los requisitos de su negocio"
+
+msgid "AI Customization"
+msgstr "Personalización de IA"
+
+msgid "Our AI tailors the document to your specific needs"
+msgstr "Nuestra IA adapta el documento a sus necesidades específicas"
+
+msgid "Download & Use"
+msgstr "Descargar y usar"
+
+msgid "Get your document instantly and ready to use"
+msgstr "Obtenga su documento al instante y listo para usar"
+
+msgid "The InstantLegal AI Advantage"
+msgstr "La ventaja de InstantLegal AI"
+
+msgid "Save Thousands in Legal Fees"
+msgstr "Ahorre miles en honorarios legales"
+
+msgid "Our AI-generated documents cost a fraction of what lawyers charge. Get the same quality without the hefty price tag."
+msgstr "Nuestros documentos generados por IA cuestan una fracción de lo que cobran los abogados. Obtenga la misma calidad sin el alto precio."
+
+msgid "Ready in 2 Minutes"
+msgstr "Listo en 2 minutos"
+
+msgid "No waiting days or weeks for a lawyer to draft your document. Our AI generates it instantly, ready for immediate use."
+msgstr "No espere días o semanas para que un abogado redacte su documento. Nuestra IA lo genera al instante, listo para su uso inmediato."
+
+msgid "State-Specific Legal Compliance"
+msgstr "Cumplimiento legal específico del estado"
+
+msgid "All documents are created following current legal standards for your specific state, providing you with the protection you need."
+msgstr "Todos los documentos se crean siguiendo los estándares legales actuales para su estado específico, brindándole la protección que necesita."
+
+msgid "Industry-Specific Customization"
+msgstr "Personalización específica de la industria"
+
+msgid "Not a generic template. Each document is tailored to your specific industry, business type, and requirements."
+msgstr "No es una plantilla genérica. Cada documento se adapta a su industria específica, tipo de negocio y requisitos."
+
+msgid "Plain Language"
+msgstr "Lenguaje claro"
+
+msgid "No complex legal jargon. Our documents are written in clear, straightforward language that both parties can understand."
+msgstr "Sin jerga legal compleja. Nuestros documentos están escritos en un lenguaje claro y directo que ambas partes pueden entender."
+
+msgid "Secure & Confidential"
+msgstr "Seguro y confidencial"
+
+msgid "Your business information is encrypted and secure. We never share your data with third parties."
+msgstr "La información de su negocio está encriptada y segura. Nunca compartimos sus datos con terceros."
+
+msgid "Sample Document Previews"
+msgstr "Vista previa de documentos de muestra"
+
+msgid "See the quality of our AI-generated legal documents"
+msgstr "Vea la calidad de nuestros documentos legales generados por IA"
+
+msgid "Non-Disclosure Agreement"
+msgstr "Acuerdo de confidencialidad"
+
+msgid "Terms of Service"
+msgstr "Términos de servicio"
+
+msgid "Privacy Policy"
+msgstr "Política de privacidad"
+
+msgid "Freelance Contract"
+msgstr "Contrato de freelance"
+
+msgid "This Non-Disclosure Agreement (the \"Agreement\") is entered into by and between [Company Name], a [State] [Business Type] (\"Disclosing Party\") and the recipient identified below (\"Receiving Party\"), collectively referred to as the \"Parties.\""
+msgstr "Este Acuerdo de Confidencialidad (el \"Acuerdo\") es celebrado entre [Nombre de la empresa], una [Estado] [Tipo de negocio] (\"Parte reveladora\") y el destinatario identificado a continuación (\"Parte receptora\"), colectivamente denominados las \"Partes\"."
+
+msgid "1. PURPOSE"
+msgstr "1. PROPÓSITO"
+
+msgid "The Parties wish to explore a potential business relationship in connection with [specific business purpose]. During this exploration, Disclosing Party may share certain proprietary and confidential information with Receiving Party. This Agreement is intended to prevent the unauthorized disclosure of Confidential Information."
+msgstr "Las Partes desean explorar una posible relación comercial en relación con [propósito comercial específico]. Durante esta exploración, la Parte reveladora puede compartir cierta información propietaria y confidencial con la Parte receptora. Este Acuerdo tiene como objetivo prevenir la divulgación no autorizada de Información Confidencial."
+
+msgid "2. DEFINITION OF CONFIDENTIAL INFORMATION"
+msgstr "2. DEFINICIÓN DE INFORMACIÓN CONFIDENCIAL"
+
+msgid "For purposes of this Agreement, \"Confidential Information\" includes all information or material that has or could have commercial value or other utility in the business in which Disclosing Party is engaged. If Confidential Information is in written form, the Disclosing Party shall label or stamp the materials with the word \"Confidential\" or some similar warning. If Confidential Information is transmitted orally, the Disclosing Party shall promptly provide a writing indicating that such oral communication constituted Confidential Information."
+msgstr "Para los fines de este Acuerdo, \"Información Confidencial\" incluye toda la información o material que tenga o pueda tener valor comercial u otra utilidad en el negocio en el que la Parte reveladora está involucrada. Si la Información Confidencial está en forma escrita, la Parte reveladora deberá etiquetar o estampar los materiales con la palabra \"Confidencial\" o alguna advertencia similar. Si la Información Confidencial se transmite oralmente, la Parte reveladora deberá proporcionar prontamente un escrito que indique que dicha comunicación oral constituyó Información Confidencial."
+
+msgid "3. EXCLUSIONS FROM CONFIDENTIAL INFORMATION"
+msgstr "3. EXCLUSIONES DE INFORMACIÓN CONFIDENCIAL"
+
+msgid "Receiving Party's obligations under this Agreement do not extend to information that is: (a) publicly known at the time of disclosure or subsequently becomes publicly known through no fault of the Receiving Party; (b) discovered or created by the Receiving Party before disclosure by Disclosing Party; (c) learned by the Receiving Party through legitimate means other than from the Disclosing Party or Disclosing Party's representatives; or (d) is disclosed by Receiving Party with Disclosing Party's prior written approval."
+msgstr "Las obligaciones de la Parte receptora bajo este Acuerdo no se extienden a la información que: (a) sea de conocimiento público en el momento de la divulgación o posteriormente se haga de conocimiento público sin culpa de la Parte receptora; (b) sea descubierta o creada por la Parte receptora antes de la divulgación por parte de la Parte reveladora; (c) sea aprendida por la Parte receptora a través de medios legítimos distintos de la Parte reveladora o los representantes de la Parte reveladora; o (d) sea divulgada por la Parte receptora con la aprobación previa por escrito de la Parte reveladora."
+
+msgid "These Terms of Service (\"Terms\") govern your access to and use of [Company Name]'s website, products, and services (\"Services\"). Please read these Terms carefully, and contact us if you have any questions."
+msgstr "Estos Términos de Servicio (\"Términos\") rigen su acceso y uso del sitio web, productos y servicios de [Nombre de la empresa] (\"Servicios\"). Lea estos Términos detenidamente y contáctenos si tiene alguna pregunta."
+
+msgid "1. ACCEPTANCE OF TERMS"
+msgstr "1. ACEPTACIÓN DE TÉRMINOS"
+
+msgid "By accessing or using our Services, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not access or use the Services."
+msgstr "Al acceder o utilizar nuestros Servicios, usted acepta estar sujeto a estos Términos y a nuestra Política de Privacidad. Si no está de acuerdo con estos Términos, no puede acceder ni utilizar los Servicios."
+
+msgid "2. CHANGES TO TERMS OR SERVICES"
+msgstr "2. CAMBIOS A LOS TÉRMINOS O SERVICIOS"
+
+msgid "We reserve the right to modify these Terms at any time. We will provide notice of any material changes by posting the new Terms on our site and updating the \"Last Updated\" date. Your continued use of the Services after such changes constitutes your acceptance of the new Terms."
+msgstr "Nos reservamos el derecho de modificar estos Términos en cualquier momento. Proporcionaremos un aviso de cualquier cambio material publicando los nuevos Términos en nuestro sitio y actualizando la fecha de \"Última actualización\". Su uso continuado de los Servicios después de dichos cambios constituye su aceptación de los nuevos Términos."
+
+msgid "3. USER ACCOUNTS"
+msgstr "3. CUENTAS DE USUARIO"
+
+msgid "When you create an account with us, you must provide accurate, complete, and current information. You are responsible for safeguarding your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use of your account."
+msgstr "Cuando crea una cuenta con nosotros, debe proporcionar información precisa, completa y actual. Usted es responsable de proteger las credenciales de su cuenta y de todas las actividades que ocurran bajo su cuenta. Debe notificarnos de inmediato cualquier uso no autorizado de su cuenta."
+
+msgid "4. INTELLECTUAL PROPERTY RIGHTS"
+msgstr "4. DERECHOS DE PROPIEDAD INTELECTUAL"
+
+msgid "The Services and their contents, features, and functionality are owned by [Company Name] and are protected by copyright, trademark, and other intellectual property laws. You may not use our intellectual property without our prior written consent."
+msgstr "Los Servicios y sus contenidos, características y funcionalidades son propiedad de [Nombre de la empresa] y están protegidos por derechos de autor, marcas registradas y otras leyes de propiedad intelectual. No puede utilizar nuestra propiedad intelectual sin nuestro consentimiento previo por escrito."
+
+msgid "This Privacy Policy describes how [Company Name] (\"we\", \"us\", or \"our\") collects, uses, and shares information about you when you use our website, products, and services (collectively, the \"Services\")."
+msgstr "Esta Política de Privacidad describe cómo [Nombre de la empresa] (\"nosotros\" o \"nuestro\") recopila, utiliza y comparte información sobre usted cuando utiliza nuestro sitio web, productos y servicios (colectivamente, los \"Servicios\")."
+
+msgid "1. INFORMATION WE COLLECT"
+msgstr "1. INFORMACIÓN QUE RECOPILAMOS"
+
+msgid "We collect information you provide directly to us, such as when you create an account, fill out a form, or communicate with us. This may include your name, email address, postal address, phone number, and payment information."
+msgstr "Recopilamos información que usted nos proporciona directamente, como cuando crea una cuenta, completa un formulario o se comunica con nosotros. Esto puede incluir su nombre, dirección de correo electrónico, dirección postal, número de teléfono e información de pago."
+
+msgid "2. HOW WE USE YOUR INFORMATION"
+msgstr "2. CÓMO UTILIZAMOS SU INFORMACIÓN"
+
+msgid "We use the information we collect to provide, maintain, and improve our Services, to process transactions, to send you technical notices and support messages, to communicate with you about products, services, offers, and events, and for other purposes with your consent."
+msgstr "Utilizamos la información que recopilamos para proporcionar, mantener y mejorar nuestros Servicios, procesar transacciones, enviarle avisos técnicos y mensajes de soporte, comunicarnos con usted sobre productos, servicios, ofertas y eventos, y para otros fines con su consentimiento."
+
+msgid "3. SHARING OF INFORMATION"
+msgstr "3. COMPARTIR INFORMACIÓN"
+
+msgid "We may share your information with third-party vendors, service providers, and other business partners who need access to such information to carry out work on our behalf. We may also share information in response to a legal request if we believe disclosure is required by law."
+msgstr "Podemos compartir su información con proveedores externos, proveedores de servicios y otros socios comerciales que necesiten acceso a dicha información para realizar trabajos en nuestro nombre. También podemos compartir información en respuesta a una solicitud legal si creemos que la divulgación es requerida por la ley."
+
+msgid "4. DATA SECURITY"
+msgstr "4. SEGURIDAD DE LOS DATOS"
+
+msgid "We take reasonable measures to help protect information about you from loss, theft, misuse, unauthorized access, disclosure, alteration, and destruction. However, no security system is impenetrable, and we cannot guarantee the security of our systems."
+msgstr "Tomamos medidas razonables para ayudar a proteger la información sobre usted contra pérdida, robo, uso indebido, acceso no autorizado, divulgación, alteración y destrucción. Sin embargo, ningún sistema de seguridad es impenetrable y no podemos garantizar la seguridad de nuestros sistemas."
+
+msgid "This Freelance Contract (\"Contract\") is entered into by and between [Client Name], with a principal place of business at [Client Address] (\"Client\") and [Freelancer Name], with a principal place of business at [Freelancer Address] (\"Freelancer\")."
+msgstr "Este Contrato de Freelance (\"Contrato\") es celebrado entre [Nombre del cliente], con un lugar principal de negocios en [Dirección del cliente] (\"Cliente\") y [Nombre del freelance], con un lugar principal de negocios en [Dirección del freelance] (\"Freelance\")."
+
+msgid "1. SERVICES"
+msgstr "1. SERVICIOS"
+
+msgid "Freelancer agrees to perform the following services for Client: [detailed description of services]. Freelancer shall complete the services according to the timeline and milestones set forth in Exhibit A, attached hereto and incorporated by reference."
+msgstr "El Freelance se compromete a realizar los siguientes servicios para el Cliente: [descripción detallada de los servicios]. El Freelance completará los servicios de acuerdo con el cronograma y los hitos establecidos en el Anexo A, adjunto al presente e incorporado por referencia."
+
+msgid "2. COMPENSATION"
+msgstr "2. COMPENSACIÓN"
+
+msgid "Client agrees to pay Freelancer [rate/fee structure] for the services. Payment shall be made as follows: [payment schedule]. Client shall reimburse Freelancer for the following expenses: [list of reimbursable expenses, if any]."
+msgstr "El Cliente se compromete a pagar al Freelance [estructura de tarifas] por los servicios. El pago se realizará de la siguiente manera: [cronograma de pagos]. El Cliente reembolsará al Freelance los siguientes gastos: [lista de gastos reembolsables, si los hay]."
+
+msgid "3. INTELLECTUAL PROPERTY RIGHTS"
+msgstr "3. DERECHOS DE PROPIEDAD INTELECTUAL"
+
+msgid "Upon receipt of full payment, Freelancer assigns to Client all right, title, and interest in the deliverables, including all intellectual property rights. Freelancer shall retain ownership of any pre-existing materials used in the deliverables."
+msgstr "Al recibir el pago completo, el Freelance asigna al Cliente todos los derechos, títulos e intereses en los entregables, incluidos todos los derechos de propiedad intelectual. El Freelance conservará la propiedad de cualquier material preexistente utilizado en los entregables."
+
+msgid "4. INDEPENDENT CONTRACTOR STATUS"
+msgstr "4. ESTATUS DE CONTRATISTA INDEPENDIENTE"
+
+msgid "Freelancer is an independent contractor, not an employee of Client. Freelancer is responsible for all taxes, insurance, and benefits. Nothing in this Contract shall be construed as creating an employer-employee relationship."
+msgstr "El Freelance es un contratista independiente, no un empleado del Cliente. El Freelance es responsable de todos los impuestos, seguros y beneficios. Nada en este Contrato se interpretará como la creación de una relación empleador-empleado."
+
+msgid "What Our Customers Say"
+msgstr "Lo que dicen nuestros clientes"
+
+msgid "Join thousands of satisfied business owners who trust InstantLegal AI"
+msgstr "Únase a miles de propietarios de negocios satisfechos que confían en InstantLegal AI"
+
+msgid "\"I needed an NDA urgently for a client meeting the next day. InstantLegal AI delivered a perfectly customized document in minutes. Saved me at least $400 in legal fees and the document was actually better than what my previous lawyer provided!\""
+msgstr "\"Necesitaba un NDA urgentemente para una reunión con un cliente al día siguiente. InstantLegal AI entregó un documento perfectamente personalizado en minutos. Me ahorró al menos $400 en honorarios legales y el documento era en realidad mejor que el que me proporcionó mi abogado anterior!\""
+
+msgid "Michael Thompson"
+msgstr "Michael Thompson"
+
+msgid "Marketing Agency Owner"
+msgstr "Propietario de agencia de marketing"
+
+msgid "\"As a startup founder, legal costs were eating into our budget. This service has been a game-changer - professional documents at a fraction of the cost and available instantly. The state-specific compliance was exactly what we needed.\""
+msgstr "\"Como fundador de una startup, los costos legales estaban consumiendo nuestro presupuesto. Este servicio ha sido un cambio de juego: documentos profesionales a una fracción del costo y disponibles al instante. El cumplimiento específico del estado era exactamente lo que necesitábamos.\""
+
+msgid "Sarah Johnson"
+msgstr "Sarah Johnson"
+
+msgid "Tech Startup CEO"
+msgstr "CEO de startup tecnológica"
+
+msgid "\"I was skeptical about AI-generated legal documents, but the quality exceeded my expectations. Clean, professional, and tailored specifically to my e-commerce business in California. I've now used it for 3 different documents - all perfect.\""
+msgstr "\"Era escéptico sobre los documentos legales generados por IA, pero la calidad superó mis expectativas. Limpio, profesional y adaptado específicamente a mi negocio de comercio electrónico en California. Ahora lo he usado para 3 documentos diferentes, todos perfectos.\""
+
+msgid "David Chen"
+msgstr "David Chen"
+
+msgid "E-commerce Entrepreneur"
+msgstr "Emprendedor de comercio electrónico"
+
+msgid "Frequently Asked Questions"
+msgstr "Preguntas frecuentes"
+
+msgid "Everything you need to know about our AI-generated legal documents"
+msgstr "Todo lo que necesita saber sobre nuestros documentos legales generados por IA"
+
+msgid "Are these documents legally binding?"
+msgstr "¿Son estos documentos legalmente vinculantes?"
+
+msgid "Yes, our AI-generated documents are legally binding when properly executed by all parties. They are created using the same legal principles and requirements that attorneys use when drafting documents."
+msgstr "Sí, nuestros documentos generados por IA son legalmente vinculantes cuando son ejecutados correctamente por todas las partes. Se crean utilizando los mismos principios y requisitos legales que los abogados utilizan al redactar documentos."
+
+msgid "Is my information secure?"
+msgstr "¿Mi información está segura?"
+
+msgid "Absolutely. We use bank-level encryption to protect your data. We never share your information with third parties, and your documents are only accessible to you."
+msgstr "Absolutamente. Utilizamos cifrado a nivel bancario para proteger sus datos. Nunca compartimos su información con terceros y sus documentos solo son accesibles para usted."
+
+msgid "How quickly will I receive my document?"
+msgstr "¿Qué tan rápido recibiré mi documento?"
+
+msgid "Most documents are generated within 2 minutes. Once generated, you can download them immediately."
+msgstr "La mayoría de los documentos se generan en 2 minutos. Una vez generados, puede descargarlos de inmediato."
+
+msgid "What if I need a document type not listed?"
+msgstr "¿Qué pasa si necesito un tipo de documento que no está en la lista?"
+
+msgid "Contact our support team, and we'll work to add your requested document type to our system. We're constantly expanding our document library based on customer needs."
+msgstr "Contacte a nuestro equipo de soporte y trabajaremos para agregar el tipo de documento solicitado a nuestro sistema. Estamos ampliando constantemente nuestra biblioteca de documentos en función de las necesidades de los clientes."
+
+msgid "Can I edit the document after receiving it?"
+msgstr "¿Puedo editar el documento después de recibirlo?"
+
+msgid "Yes, all documents are delivered in editable PDF format. You can make any necessary adjustments before finalizing."
+msgstr "Sí, todos los documentos se entregan en formato PDF editable. Puede hacer los ajustes necesarios antes de finalizar."
+
+msgid "Do I need a lawyer to review these documents?"
+msgstr "¿Necesito un abogado para revisar estos documentos?"
+
+msgid "While our documents are legally sound, for complex situations or high-stakes agreements, we recommend having an attorney review the final document. Our service provides a professional starting point that can save significant legal costs."
+msgstr "Aunque nuestros documentos son legalmente sólidos, para situaciones complejas o acuerdos de alto riesgo, recomendamos que un abogado revise el documento final. Nuestro servicio proporciona un punto de partida profesional que puede ahorrar costos legales significativos."
+
+msgid "What makes your AI-generated documents better than templates?"
+msgstr "¿Qué hace que sus documentos generados por IA sean mejores que las plantillas?"
+
+msgid "Unlike generic templates, our AI customizes each document to your specific business needs, industry requirements, and state laws. The documents are more comprehensive, relevant, and legally sound than one-size-fits-all templates."
+msgstr "A diferencia de las plantillas genéricas, nuestra IA personaliza cada documento según las necesidades específicas de su negocio, los requisitos de la industria y las leyes estatales. Los documentos son más completos, relevantes y legalmente sólidos que las plantillas de talla única."
+
+msgid "What's included in the Money-Back Guarantee?"
+msgstr "¿Qué incluye la garantía de devolución del dinero?"
+
+msgid "If you're not satisfied with your document for any reason, contact us within 30 days of purchase for a full refund. No questions asked."
+msgstr "Si no está satisfecho con su documento por cualquier motivo, contáctenos dentro de los 30 días posteriores a la compra para obtener un reembolso completo. Sin preguntas."

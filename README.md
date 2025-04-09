@@ -77,6 +77,49 @@ instantlegal-ai/
     └── index.html          # Main application template
 ```
 
+## Adding New Translations
+
+1. Install Flask-Babel:
+```
+pip install Flask-Babel
+```
+
+2. Initialize Babel in your Flask app (`app.py`):
+```python
+from flask_babel import Babel
+
+app = Flask(__name__)
+babel = Babel(app)
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(['en', 'es'])
+```
+
+3. Create a `translations` directory in the root of your project:
+```
+mkdir translations
+```
+
+4. Extract messages from your templates and Python files:
+```
+pybabel extract -F babel.cfg -o messages.pot .
+```
+
+5. Initialize a new language (e.g., Spanish):
+```
+pybabel init -i messages.pot -d translations -l es
+```
+
+6. Edit the generated `messages.po` file in `translations/es/LC_MESSAGES/` to add your translations.
+
+7. Compile the translations:
+```
+pybabel compile -d translations
+```
+
+8. Restart your Flask application to apply the new translations.
+
 ## License
 
 MIT

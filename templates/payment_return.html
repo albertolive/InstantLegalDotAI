@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Processing Payment - InstantLegal AI</title>
+    <title>{{ _('Processing Payment - InstantLegal AI') }}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
@@ -162,27 +162,27 @@
         <a href="/" class="logo">Instant<span>Legal</span>AI</a>
         
         <div class="loading-icon">⚖️</div>
-        <h1>Processing Your Payment</h1>
+        <h1>{{ _('Processing Your Payment') }}</h1>
         
         <div class="loading-progress">
             <div class="loading-progress-bar" id="progress-bar"></div>
         </div>
         
         <div class="loading-catchphrase" id="catchphrase">
-            "Verifying payment and preparing your document..."
+            {{ _('Verifying payment and preparing your document...') }}
         </div>
         
-        <p class="loading-time">This may take up to 2 minutes. Thank you for your patience!</p>
+        <p class="loading-time">{{ _('This may take up to 2 minutes. Thank you for your patience!') }}</p>
         
         <div class="success-message" id="success-message">
-            Your document has been generated successfully! <a href="#" id="download-link">Click here to download</a>
+            {{ _('Your document has been generated successfully!') }} <a href="#" id="download-link">{{ _('Click here to download') }}</a>
         </div>
         
         <div class="error-message" id="error-message">
-            There was an error generating your document. Please try again.
+            {{ _('There was an error generating your document. Please try again.') }}
         </div>
         
-        <a href="/" class="btn" id="return-home" style="display: none;">Return to Home</a>
+        <a href="/" class="btn" id="return-home" style="display: none;">{{ _('Return to Home') }}</a>
     </div>
     
     <script>
@@ -202,21 +202,21 @@
             
             // Array of funny legal catchphrases
             const catchphrases = [
-                "Turning legal jargon into plain English...",
-                "Objection overruled! Your document is being prepared...",
-                "Briefing the AI judge on your requirements...",
-                "Citing precedents and adding legal pizzazz...",
-                "Examining the fine print so you don't have to...",
-                "Translating legalese into something actually readable...",
-                "Preparing to make opposing counsel jealous...",
-                "Dotting the i's, crossing the t's, and adding some legal flair...",
-                "Summoning the ghost of legal documents past...",
-                "Arguing with the AI about comma placement...",
-                "Deliberating on the perfect legal tone...",
-                "Calling expert witnesses to verify your document...",
-                "Striking hearsay from the record...",
-                "Preparing closing arguments for your document...",
-                "Instructing the jury of AI models on your case..."
+                "{{ _('Turning legal jargon into plain English...') }}",
+                "{{ _('Objection overruled! Your document is being prepared...') }}",
+                "{{ _('Briefing the AI judge on your requirements...') }}",
+                "{{ _('Citing precedents and adding legal pizzazz...') }}",
+                "{{ _('Examining the fine print so you don\'t have to...') }}",
+                "{{ _('Translating legalese into something actually readable...') }}",
+                "{{ _('Preparing to make opposing counsel jealous...') }}",
+                "{{ _('Dotting the i\'s, crossing the t\'s, and adding some legal flair...') }}",
+                "{{ _('Summoning the ghost of legal documents past...') }}",
+                "{{ _('Arguing with the AI about comma placement...') }}",
+                "{{ _('Deliberating on the perfect legal tone...') }}",
+                "{{ _('Calling expert witnesses to verify your document...') }}",
+                "{{ _('Striking hearsay from the record...') }}",
+                "{{ _('Preparing closing arguments for your document...') }}",
+                "{{ _('Instructing the jury of AI models on your case...') }}"
             ];
             
             // Array of legal-themed emojis
@@ -276,7 +276,7 @@
                                 console.log(`Server unavailable (503), retry ${retryCount + 1}/${maxRetries} in ${(retryCount + 1) * 2} seconds`);
                                 
                                 // Update the catchphrase to indicate retrying
-                                catchphraseElement.innerHTML = `"Server is busy, retrying in ${(retryCount + 1) * 2} seconds..."`;
+                                catchphraseElement.innerHTML = `"{{ _('Server is busy, retrying in') }} ${(retryCount + 1) * 2} {{ _('seconds...') }}"`;
                                 
                                 // Retry after exponential backoff
                                 setTimeout(() => {
@@ -288,28 +288,28 @@
                             // Check content type to handle HTML responses
                             const contentType = response.headers.get('content-type');
                             if (contentType && contentType.includes('text/html')) {
-                                throw new Error(`Server returned HTML instead of JSON (status: ${response.status}). The server might be overloaded.`);
+                                throw new Error(`{{ _('Server returned HTML instead of JSON (status:') }} ${response.status}). {{ _('The server might be overloaded.') }}`);
                             }
                             
                             return response.json().then(errorData => {
-                                throw new Error(errorData.error || `Server error: ${response.status}`);
+                                throw new Error(errorData.error || `{{ _('Server error:') }} ${response.status}`);
                             }).catch(err => {
                                 if (err.message && err.message !== "Unexpected end of JSON input" && !err.message.includes("Unexpected token")) {
                                     throw err;
                                 }
-                                throw new Error(`Server error: ${response.status}. The server might be overloaded.`);
+                                throw new Error(`{{ _('Server error:') }} ${response.status}. {{ _('The server might be overloaded.') }}`);
                             });
                         }
                         
                         // Check content type to handle HTML responses
                         const contentType = response.headers.get('content-type');
                         if (contentType && contentType.includes('text/html')) {
-                            throw new Error(`Server returned HTML instead of JSON. The server might be overloaded.`);
+                            throw new Error(`{{ _('Server returned HTML instead of JSON. The server might be overloaded.') }}`);
                         }
                         
                         return response.json().catch(err => {
-                            console.error("JSON parsing error:", err);
-                            throw new Error("Failed to parse server response. The server might be overloaded.");
+                            console.error("{{ _('JSON parsing error:') }}", err);
+                            throw new Error("{{ _('Failed to parse server response. The server might be overloaded.') }}");
                         });
                     })
                     .then(data => {
@@ -332,8 +332,8 @@
                                 returnHomeButton.style.display = 'inline-block';
                             } else if (data.status === 'processing') {
                                 // Handle processing status - retry after a delay
-                                console.log("Document still processing, will retry in 5 seconds");
-                                catchphraseElement.innerHTML = `"${data.message || 'Your document is still being generated. Please wait a moment...'}"`;
+                                console.log("{{ _('Document still processing, will retry in 5 seconds') }}");
+                                catchphraseElement.innerHTML = `"${data.message || '{{ _('Your document is still being generated. Please wait a moment...') }}'}"`;
                                 
                                 // Reset progress bar to show continued processing
                                 progressBar.style.width = '75%';
@@ -343,7 +343,7 @@
                                     checkPaymentStatus(sessionId);
                                 }, 5000);
                             } else {
-                                errorMessage.textContent = data.error || 'There was an error generating your document. Please try again.';
+                                errorMessage.textContent = data.error || '{{ _('There was an error generating your document. Please try again.') }}';
                                 errorMessage.style.display = 'block';
                                 returnHomeButton.style.display = 'inline-block';
                             }
@@ -355,7 +355,7 @@
                             console.log(`503 error in response, retry ${retryCount + 1}/${maxRetries} in ${(retryCount + 1) * 2} seconds`);
                             
                             // Update the catchphrase to indicate retrying
-                            catchphraseElement.innerHTML = `"Server is busy, retrying in ${(retryCount + 1) * 2} seconds..."`;
+                            catchphraseElement.innerHTML = `"{{ _('Server is busy, retrying in') }} ${(retryCount + 1) * 2} {{ _('seconds...') }}"`;
                             
                             // Retry after exponential backoff
                             setTimeout(() => {
@@ -368,8 +368,8 @@
                         clearTimeout(animationTimer);
                         progressBar.style.width = '100%';
                         
-                        console.error('Payment processing error:', error);
-                        errorMessage.textContent = 'There was an error processing your payment: ' + error.message;
+                        console.error('{{ _('Payment processing error:') }}', error);
+                        errorMessage.textContent = '{{ _('There was an error processing your payment:') }} ' + error.message;
                         errorMessage.style.display = 'block';
                         returnHomeButton.style.display = 'inline-block';
                     });
@@ -380,4 +380,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
