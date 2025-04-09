@@ -43,6 +43,8 @@ FLASK_APP=app.py
 FLASK_ENV=development
 OPENAI_API_KEY=your_openai_api_key_here
 SECRET_KEY=your_secret_key_here
+STRIPE_SECRET_KEY=your_stripe_secret_key_here
+STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key_here
 ```
 
 5. Run the application:
@@ -113,12 +115,14 @@ pybabel init -i messages.pot -d translations -l es
 
 6. Edit the generated `messages.po` file in `translations/es/LC_MESSAGES/` to add your translations.
 
-7. Compile the translations:
+## Compiling Translations
+
+1. Compile the translations:
 ```
 pybabel compile -d translations
 ```
 
-8. Restart your Flask application to apply the new translations.
+2. Restart your Flask application to apply the new translations.
 
 ## License
 
