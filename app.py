@@ -1,7 +1,7 @@
 import os
 import json
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, render_template, request, jsonify, send_file, redirect, url_for, send_from_directory
 from flask_cors import CORS
 from flask_limiter import Limiter
@@ -16,6 +16,12 @@ from reportlab.lib import colors
 import stripe
 import time
 from flask_babel import Babel, _
+import geoip2.database
+from geoip2.errors import AddressNotFoundError
+import requests # Still needed for MaxMind DB download
+import tarfile # Still needed for MaxMind DB download
+import shutil  # Still needed for MaxMind DB download
+import pycountry # <--- Added for jurisdictions
 
 # Load environment variables
 load_dotenv()
@@ -50,15 +56,19 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     app.logger.warning("OpenAI API key not set. Document generation will not work.")
 
-# Initialize OpenAI client with no proxy configuration
+# Initialize OpenAI client
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-# Ensure the uploads directory exists
-UPLOAD_FOLDER = os.path.join(os.getcwd(), "static", "documents")
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# Define base directories relative to the app's root path
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_FOLDER = os.path.join(APP_ROOT, "static")
+UPLOAD_FOLDER = os.path.join(STATIC_FOLDER, "documents")
+DOWNLOAD_FOLDER = os.path.join(STATIC_FOLDER, "downloads")
+TRANSLATIONS_FOLDER = os.path.join(APP_ROOT, 'translations')
+GEOLITE2_DB_PATH = os.path.join(APP_ROOT, 'GeoLite2-Country.mmdb')
 
-# Ensure the downloads directory exists
-DOWNLOAD_FOLDER = os.path.join(os.getcwd(), "static", "downloads")
+# Ensure necessary directories exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
 # Document types and their descriptions
@@ -74,408 +84,785 @@ DOCUMENT_TYPES = {
 # Initialize Babel
 babel = Babel(app)
 
-@babel.localeselector
-def get_locale():
-    return request.accept_languages.best_match(['en', 'es'])
+# Configure Babel
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = TRANSLATIONS_FOLDER
 
-@babel.timezoneselector
+# Country names for display (can be expanded)
+# pycountry can also provide country names: pycountry.countries.get(alpha_2='US').name
+COUNTRY_DISPLAY_NAMES = {
+    'US': 'United States',
+    'GB': 'United Kingdom',
+    'ES': 'Spain',
+    'FR': 'France',
+    'DE': 'Germany',
+    'IT': 'Italy',
+    'CA': 'Canada',
+    'AU': 'Australia',
+    'NZ': 'New Zealand',
+    'IE': 'Ireland',
+    'MX': 'Mexico',
+    # Add more or use pycountry dynamically if needed
+}
+
+# --- Removed Hardcoded Jurisdiction Data ---
+# US_STATES = {...} removed
+# fetch_spanish_jurisdictions(), fetch_mexican_jurisdictions(), fetch_german_jurisdictions() removed
+# REST_COUNTRIES_BASE_URL removed
+# fetch_country_jurisdictions() removed
+
+# Cache for jurisdiction data (using pycountry)
+jurisdiction_cache = {}
+CACHE_DURATION = timedelta(days=1).total_seconds() # Use timedelta for clarity
+
+# MaxMind GeoLite2 Configuration
+MAXMIND_LICENSE_KEY = os.getenv("MAXMIND_LICENSE_KEY")
+GEOLITE2_UPDATE_INTERVAL = timedelta(days=30)
+
+def download_geolite2_database():
+    """Download and update the GeoLite2 Country database."""
+    if not MAXMIND_LICENSE_KEY:
+        app.logger.warning("MaxMind license key not set. Geolocation will default to US.")
+        return False
+    try:
+        url = f"https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={MAXMIND_LICENSE_KEY}&suffix=tar.gz"
+        response = requests.get(url, stream=True)
+        response.raise_for_status() # Raise an exception for bad status codes
+
+        temp_dir = os.path.join(APP_ROOT, "temp_geodb")
+        os.makedirs(temp_dir, exist_ok=True)
+        temp_file = os.path.join(temp_dir, "geolite2_country.tar.gz")
+
+        with open(temp_file, 'wb') as f:
+            response.raw.decode_content = True
+            shutil.copyfileobj(response.raw, f)
+
+        extracted_db_path = None
+        with tarfile.open(temp_file, 'r:gz') as tar:
+            for member in tar.getmembers():
+                if member.name.endswith('.mmdb'):
+                    # Extract to temp dir first to avoid overwriting potentially in-use DB
+                    tar.extract(member, temp_dir)
+                    extracted_db_path = os.path.join(temp_dir, member.name)
+                    break # Assume only one .mmdb file
+
+        if extracted_db_path and os.path.exists(extracted_db_path):
+            shutil.move(extracted_db_path, GEOLITE2_DB_PATH)
+            app.logger.info(f"GeoLite2 database updated successfully to {GEOLITE2_DB_PATH}")
+            # Clean up temporary files and directory
+            shutil.rmtree(temp_dir)
+            return True
+        else:
+            app.logger.error("Failed to find .mmdb file in downloaded archive.")
+            shutil.rmtree(temp_dir) # Clean up even on failure
+            return False
+
+    except requests.exceptions.RequestException as e:
+         app.logger.error(f"Failed to download GeoLite2 database: {e}")
+         return False
+    except tarfile.TarError as e:
+        app.logger.error(f"Error extracting GeoLite2 database archive: {e}")
+        if os.path.exists(temp_dir): shutil.rmtree(temp_dir)
+        return False
+    except Exception as e:
+        app.logger.error(f"Error processing GeoLite2 database: {str(e)}")
+        if 'temp_dir' in locals() and os.path.exists(temp_dir): shutil.rmtree(temp_dir)
+        return False
+
+def check_and_update_geolite2():
+    """Check if the GeoLite2 database exists and is up to date."""
+    try:
+        if not os.path.exists(GEOLITE2_DB_PATH):
+            app.logger.info("GeoLite2 database not found. Attempting download...")
+            return download_geolite2_database()
+
+        mod_time = datetime.fromtimestamp(os.path.getmtime(GEOLITE2_DB_PATH))
+        if datetime.now() - mod_time > GEOLITE2_UPDATE_INTERVAL:
+            app.logger.info("GeoLite2 database is outdated. Updating...")
+            return download_geolite2_database()
+
+        app.logger.info("GeoLite2 database is up to date.")
+        return True
+    except Exception as e:
+        app.logger.error(f"Error checking GeoLite2 database status: {str(e)}")
+        return False
+
+# Check/Update GeoLite2 DB on startup
+check_and_update_geolite2()
+
+# --- Jurisdiction fetching using pycountry ---
+def get_jurisdictions_from_library(country_code):
+    """
+    Gets subdivisions for a country using pycountry, 
+    filtering for relevant types (e.g., Autonomous Communities/Cities for Spain).
+    """
+    try:
+        all_subdivisions = pycountry.subdivisions.get(country_code=country_code.upper())
+        if not all_subdivisions:
+             app.logger.info(f"No subdivisions found in pycountry for {country_code}")
+             return {}
+
+        # Debug logging for Spanish jurisdictions
+        if country_code.upper() == 'ES':
+            app.logger.debug(f"Found {len(list(all_subdivisions))} total subdivisions for Spain")
+            app.logger.debug(f"Subdivision types found: {set(sub.type for sub in all_subdivisions)}")
+
+        # --- FILTERING LOGIC ---
+        # Define the types you want to include for the jurisdiction dropdown
+        # Common types for Spain: 'Autonomous community', 'Autonomous city'
+        # You might need to inspect subdivision.type for other countries if needed.
+        desired_types = {
+            'ES': ['Autonomous community', 'Autonomous city', 'Comunidad autónoma', 'Ciudad autónoma'],
+            'US': ['State'],
+            'DE': ['Land'],
+            'MX': ['State', 'Estado'],
+            'FR': ['Metropolitan department', 'Overseas department']
+        }.get(country_code.upper(), ['State', 'Province', 'Region'])  # Default types for other countries
+        
+        filtered_subdivisions = [
+            sub for sub in all_subdivisions 
+            if any(desired_type.lower() in sub.type.lower() 
+                  for desired_type in desired_types)
+        ]
+        
+        if not filtered_subdivisions:
+             app.logger.warning(f"No subdivisions of desired types {desired_types} found for {country_code}, even though pycountry returned some subdivisions.")
+             # Optional: You could fall back to showing all subdivisions here if desired
+             # filtered_subdivisions = all_subdivisions 
+             return {} # Return empty if no desired types found
+
+        # Convert the FILTERED list to the dictionary format
+        jurisdiction_dict = {}
+        for sub in filtered_subdivisions:
+            # Special handling for Spanish jurisdictions
+            if country_code.upper() == 'ES':
+                # Handle special cases for Spanish regions
+                name = sub.name
+                if ', ' in name:
+                    # Convert "Madrid, Comunidad de" to "Comunidad de Madrid"
+                    parts = name.split(', ')
+                    if len(parts) == 2:
+                        name = f"{parts[1]} {parts[0]}"
+            else:
+                name = sub.name
+            
+            jurisdiction_dict[sub.code.split('-')[-1]] = name
+
+        # Optional: Log the filtered count
+        app.logger.debug(f"Found {len(jurisdiction_dict)} jurisdictions of types {desired_types} for {country_code}")
+        
+        return jurisdiction_dict
+
+    except KeyError:
+        app.logger.warning(f"Country code {country_code} not recognized by pycountry.")
+        return {}
+    except Exception as e:
+        app.logger.error(f"Error fetching/filtering subdivisions for {country_code} from pycountry: {str(e)}")
+        return {}
+
+def get_cached_jurisdictions(country_code):
+    """
+    Get jurisdictions from cache or fetch using pycountry if needed.
+    """
+    global jurisdiction_cache
+    current_time = time.time()
+
+    # Check cache first
+    if country_code in jurisdiction_cache:
+        cache_time, data = jurisdiction_cache[country_code]
+        if current_time - cache_time < CACHE_DURATION:
+            # app.logger.debug(f"Using cached jurisdictions for {country_code}")
+            return data
+
+    # If not in cache or expired, fetch using pycountry
+    app.logger.info(f"Fetching jurisdictions for {country_code} using pycountry.")
+    data = get_jurisdictions_from_library(country_code)
+
+    # Update cache (even if data is empty, to avoid refetching immediately)
+    jurisdiction_cache[country_code] = (current_time, data)
+    # app.logger.debug(f"Cached jurisdictions for {country_code}: {data}")
+    return data
+
+def get_visitor_location():
+    """Determine visitor's country code using GeoLite2 DB."""
+    try:
+        if not os.path.exists(GEOLITE2_DB_PATH):
+            app.logger.warning("GeoLite2 database not found at {}. Using default 'US' location.".format(GEOLITE2_DB_PATH))
+            return 'US'
+
+        ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
+
+        # Handle common local/private IPs
+        if ip_address.startswith(('127.', '10.', '172.', '192.168.')) or ip_address == '::1':
+             app.logger.debug(f"Local/Private IP detected ({ip_address}). Defaulting to 'ES'.")
+             return 'ES' # Default to Spain for testing
+
+        # Use a context manager for the reader
+        with geoip2.database.Reader(GEOLITE2_DB_PATH) as reader:
+            response = reader.country(ip_address)
+            country_code = response.country.iso_code
+            app.logger.debug(f"Detected country code {country_code} for IP {ip_address}")
+            return country_code
+
+    except AddressNotFoundError:
+        app.logger.warning(f"IP address {ip_address} not found in GeoLite2 database. Defaulting to 'US'.")
+        return 'US'
+    except FileNotFoundError:
+         app.logger.error(f"GeoLite2 database file not found at expected path: {GEOLITE2_DB_PATH}")
+         return 'US' # Default if file vanished after startup check
+    except Exception as e:
+        # Catch-all for other potential geoip2 errors or unexpected issues
+        app.logger.error(f"Error determining visitor location: {str(e)}")
+        return 'US'
+
+def get_jurisdiction(country_code):
+    """
+    Get jurisdiction options for the dropdown.
+    Returns a dictionary of subdivisions or the country name itself if no subdivisions exist.
+    """
+    jurisdictions = get_cached_jurisdictions(country_code)
+
+    if jurisdictions:
+        return jurisdictions
+
+    # If pycountry returned no subdivisions, fallback to the country name
+    # Use COUNTRY_DISPLAY_NAMES or fetch dynamically from pycountry
+    country_name = COUNTRY_DISPLAY_NAMES.get(country_code)
+    if not country_name:
+        try:
+             country_name = pycountry.countries.get(alpha_2=country_code).name
+        except KeyError:
+             country_name = country_code # Fallback to code if name not found
+        except Exception as e:
+             app.logger.error(f"Error getting country name for {country_code} from pycountry: {e}")
+             country_name = country_code # Fallback
+
+    app.logger.info(f"No specific subdivisions for {country_code}, using country name '{country_name}' as jurisdiction.")
+    return {country_code: country_name} # e.g., {'FR': 'France'}
+
+def get_locale():
+    """Determine the locale based on country and browser preferences."""
+    country_code = get_visitor_location()
+
+    # Define supported languages within the app
+    SUPPORTED_LANGUAGES = ['en', 'es', 'de', 'fr', 'it'] # Add all languages you have translations for
+
+    # Map country codes to preferred languages (can be expanded)
+    country_language_map = {
+        'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'CL': 'es', # Spanish-speaking
+        'US': 'en', 'GB': 'en', 'AU': 'en', 'CA': 'en', 'NZ': 'en', 'IE': 'en', # English-speaking
+        'DE': 'de', 'AT': 'de', 'CH': 'de', # German-speaking (CH also has fr, it)
+        'FR': 'fr', 'BE': 'fr', # French-speaking (BE also has nl, de)
+        'IT': 'it',              # Italian-speaking
+        # Add more mappings
+    }
+
+    lang = country_language_map.get(country_code)
+
+    if lang and lang in SUPPORTED_LANGUAGES:
+         app.logger.debug(f"Locale determined by country {country_code}: {lang}")
+         return lang
+
+    # Fallback to browser preferences, matching against *our* supported languages
+    best_match = request.accept_languages.best_match(SUPPORTED_LANGUAGES)
+    app.logger.debug(f"Locale determined by Accept-Language header: {best_match}")
+    return best_match or app.config['BABEL_DEFAULT_LOCALE'] # Ensure we always return a locale
+
+
 def get_timezone():
+    # Placeholder - Timezone detection is more complex
     return 'UTC'
+
+# --- Assign Babel Selectors ---
+babel.init_app(app, locale_selector=get_locale, timezone_selector=get_timezone)
+
 
 @app.route('/')
 def index():
-    return render_template('index.html', document_types=DOCUMENT_TYPES, stripe_key=STRIPE_PUBLISHABLE_KEY)
+    """Render the main page."""
+    country_code = get_visitor_location()
+    jurisdictions = get_jurisdiction(country_code)
+    current_language = get_locale() # Use the same function Babel uses
 
+    # Get country display name, falling back gracefully
+    selected_country_name = COUNTRY_DISPLAY_NAMES.get(country_code)
+    if not selected_country_name:
+        try:
+            selected_country_name = pycountry.countries.get(alpha_2=country_code).name
+        except: # Broad except to catch KeyError or other pycountry issues
+            selected_country_name = country_code # Fallback to code
+
+    return render_template(
+        'index.html',
+        document_types=DOCUMENT_TYPES,
+        stripe_key=STRIPE_PUBLISHABLE_KEY,
+        jurisdictions=jurisdictions,
+        selected_country=selected_country_name, # Use the determined name
+        country_code=country_code,
+        current_language=current_language
+    )
+
+# --- Payment Routes (create_checkout_session, payment_return, payment_success) ---
+# These remain largely the same as before. Added slight logging improvements.
 @app.route('/create-checkout-session', methods=['POST'])
+@limiter.limit("10 per minute") # Add rate limiting
 def create_checkout_session():
     try:
-        # Store form data in session or temporary storage
         form_data = request.form
-        
-        # Create a checkout session with standard checkout
+        doc_type = form_data.get("document_type", "custom")
+        doc_name = DOCUMENT_TYPES.get(doc_type, "Custom Document")
+        app.logger.info(f"Creating checkout session for document type: {doc_type}")
+
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
-            line_items=[
-                {
-                    'price_data': {
-                        'currency': 'usd',
-                        'product_data': {
-                            'name': f'Legal Document: {DOCUMENT_TYPES.get(form_data.get("document_type", ""), "Custom Document")}',
-                            'description': 'AI-generated legal document tailored to your business needs',
-                        },
-                        'unit_amount': 9900,  # $99.00 in cents
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Legal Document: {doc_name}',
+                        'description': 'AI-generated legal document tailored to your needs.',
                     },
-                    'quantity': 1,
+                    'unit_amount': 9900, # $99.00
                 },
-            ],
+                'quantity': 1,
+            }],
             mode='payment',
-            success_url=request.host_url + 'payment-return?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=request.host_url,
-            metadata={
-                'form_data': json.dumps(dict(form_data))
-            }
+            success_url=url_for('payment_return', session_id='{CHECKOUT_SESSION_ID}', _external=True),
+            cancel_url=url_for('index', _external=True),
+            metadata={'form_data': json.dumps(dict(form_data))}
         )
-        
-        return jsonify({
-            'sessionId': checkout_session.id
-        })
+        app.logger.info(f"Stripe session created: {checkout_session.id}")
+        return jsonify({'sessionId': checkout_session.id})
+
+    except stripe.error.StripeError as e:
+        app.logger.error(f"Stripe API error during checkout creation: {str(e)}")
+        return jsonify({'error': f"Stripe error: {str(e)}"}), 500
     except Exception as e:
-        app.logger.error(f"Stripe error: {str(e)}")
-        return jsonify({'error': str(e)}), 400
+        app.logger.error(f"Error creating checkout session: {str(e)}")
+        return jsonify({'error': 'An internal error occurred'}), 500
 
 @app.route('/payment-return', methods=['GET'])
 def payment_return():
     session_id = request.args.get('session_id')
+    if not session_id:
+        app.logger.warning("Payment return page accessed without session_id.")
+        return redirect(url_for('index'))
+    # This page might just show a "processing" message and use JS
+    # to poll the /payment-success endpoint.
     return render_template('payment_return.html', session_id=session_id, stripe_key=STRIPE_PUBLISHABLE_KEY)
 
 @app.route('/payment-success', methods=['GET'])
+@limiter.limit("5 per minute") # Limit polling frequency
 def payment_success():
     session_id = request.args.get('session_id')
-    
-    try:
-        # Retrieve the session to get metadata
-        session = stripe.checkout.Session.retrieve(session_id)
-        
-        # In a production environment, you should verify the payment status
-        # For now, we'll proceed with document generation
-        
-        # Extract form data from metadata
-        form_data = json.loads(session.metadata.get('form_data', '{}'))
-        
-        # Set a timeout for the entire request to prevent Heroku H12 errors
-        # This will ensure we respond to the client before Heroku times out
-        start_time = time.time()
-        timeout_limit = 25  # seconds, less than Heroku's 30s limit
-        
-        # Generate the document with retry logic
-        max_retries = 2
-        retry_delay = 1  # seconds
-        
-        for attempt in range(max_retries):
-            try:
-                # Check if we're approaching the timeout limit
-                if time.time() - start_time > timeout_limit:
-                    # If we're close to timeout, return a "processing" response
-                    # The client will retry the request
-                    app.logger.warning(f"Approaching timeout limit, returning processing status")
-                    return jsonify({
-                        'status': 'processing',
-                        'message': 'Your document is still being generated. Please wait a moment and try again.'
-                    }), 202
-                
-                document_result = generate_document(form_data)
-                
-                if document_result.get('success'):
-                    return jsonify(document_result)
-                else:
-                    error_msg = document_result.get('error', 'Unknown error')
-                    app.logger.error(f"Document generation failed: {error_msg}")
-                    
-                    if attempt < max_retries - 1:
-                        # Not the last attempt, wait and retry
-                        time.sleep(retry_delay)
-                        retry_delay *= 2  # Exponential backoff
-                        app.logger.info(f"Retrying document generation (attempt {attempt+2}/{max_retries})")
-                    else:
-                        # Last attempt failed
-                        return jsonify({'error': f'Failed to generate document after {max_retries} attempts: {error_msg}'}), 500
-            
-            except Exception as doc_error:
-                app.logger.error(f"Document generation exception (attempt {attempt+1}/{max_retries}): {str(doc_error)}")
-                
-                if attempt < max_retries - 1:
-                    # Not the last attempt, wait and retry
-                    time.sleep(retry_delay)
-                    retry_delay *= 2  # Exponential backoff
-                    app.logger.info(f"Retrying document generation (attempt {attempt+2}/{max_retries})")
-                else:
-                    # Last attempt failed
-                    return jsonify({'error': f"Document generation failed after {max_retries} attempts: {str(doc_error)}"}), 500
-            
-    except stripe.error.StripeError as e:
-        # Handle Stripe-specific errors
-        app.logger.error(f"Stripe error: {str(e)}")
-        return jsonify({'error': f"Payment verification failed: {str(e)}"}), 400
-    except Exception as e:
-        # Handle any other exceptions
-        app.logger.error(f"Payment success route error: {str(e)}")
-        return jsonify({'error': f"An unexpected error occurred: {str(e)}"}), 500
+    if not session_id:
+        app.logger.warning("Payment success endpoint called without session_id.")
+        return jsonify({'error': 'Missing session ID'}), 400
 
+    try:
+        app.logger.info(f"Verifying payment success for session: {session_id}")
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        # IMPORTANT: Verify payment status properly in production
+        if session.payment_status != 'paid':
+            app.logger.warning(f"Payment not completed for session {session_id}. Status: {session.payment_status}")
+            # You might return a 'pending' status or an error depending on your flow
+            return jsonify({'status': 'pending', 'message': 'Payment not yet complete.'}), 202
+
+        form_data = json.loads(session.metadata.get('form_data', '{}'))
+        if not form_data:
+             app.logger.error(f"Missing form_data in metadata for session {session_id}")
+             return jsonify({'error': 'Could not retrieve document details.'}), 500
+
+        app.logger.info(f"Payment successful for session {session_id}. Proceeding with document generation.")
+
+        # --- Document Generation Logic (extracted for clarity) ---
+        try:
+            document_result = generate_document_with_timeout(form_data)
+            return jsonify(document_result)
+        except TimeoutError:
+             app.logger.warning(f"Document generation timed out for session {session_id}.")
+             return jsonify({
+                'status': 'processing',
+                'message': 'Document generation is taking longer than expected. Please check back shortly or contact support.'
+             }), 202 # Accepted
+        except Exception as doc_error:
+             app.logger.error(f"Document generation failed for session {session_id}: {str(doc_error)}")
+             # Be careful not to expose sensitive error details to the client
+             return jsonify({'error': 'Failed to generate document due to an internal error.'}), 500
+
+    except stripe.error.InvalidRequestError as e:
+         app.logger.error(f"Invalid Stripe request for session {session_id}: {str(e)}")
+         return jsonify({'error': 'Invalid payment session ID.'}), 404
+    except stripe.error.StripeError as e:
+        app.logger.error(f"Stripe API error during payment verification: {str(e)}")
+        return jsonify({'error': f"Payment verification failed: {str(e)}"}), 500
+    except Exception as e:
+        app.logger.error(f"Unexpected error in payment success route: {str(e)}")
+        return jsonify({'error': 'An unexpected error occurred.'}), 500
+
+
+def generate_document_with_timeout(form_data):
+    """Wrapper for generate_document with timeout and retries."""
+    start_time = time.time()
+    # Slightly shorter than Heroku/Gunicorn timeout to allow response sending
+    timeout_limit = os.getenv("DOC_GEN_TIMEOUT", 28)
+    max_retries = 2
+    retry_delay = 1
+
+    for attempt in range(max_retries):
+        try:
+            # Check timeout before each attempt
+            if time.time() - start_time > timeout_limit:
+                raise TimeoutError("Document generation exceeded time limit")
+
+            app.logger.info(f"Starting document generation attempt {attempt + 1}/{max_retries}")
+            # Pass remaining time to generate_document if it supports it,
+            # or just rely on the outer timeout check.
+            # remaining_time = timeout_limit - (time.time() - start_time)
+            result = generate_document(form_data) # Assuming generate_document raises exceptions on failure
+
+            if result.get('success'):
+                app.logger.info("Document generation successful.")
+                return result
+            else:
+                 # This case might not be reached if generate_document raises exceptions
+                 error_msg = result.get('error', 'Unknown generation error')
+                 app.logger.error(f"Document generation attempt {attempt + 1} failed: {error_msg}")
+                 # Optionally retry specific non-fatal errors here
+
+        except TimeoutError as te:
+             # Rethrow timeout specifically if needed by calling function
+             raise te
+        except Exception as e:
+            app.logger.error(f"Document generation exception (attempt {attempt + 1}/{max_retries}): {str(e)}")
+            if attempt < max_retries - 1:
+                time.sleep(retry_delay)
+                retry_delay *= 2 # Exponential backoff
+            else:
+                app.logger.error(f"Document generation failed after {max_retries} attempts.")
+                raise Exception(f"Failed to generate document after retries: {str(e)}") # Raise the last error
+
+    # Should not be reached if logic is correct, but acts as a fallback
+    return {'success': False, 'error': 'Document generation failed after all retries.'}
+
+
+# --- Health Check ---
 @app.route('/health', methods=['GET'])
 def health_check():
-    """Health check endpoint to verify the server is running properly"""
-    try:
-        # Check if we can connect to Stripe
-        stripe.Account.retrieve()
-        
-        # Check if OpenAI API is accessible
-        openai_status = "ok"
-        try:
-            # Simple model check with a short timeout
-            client.models.list(timeout=5)
-        except Exception as e:
-            openai_status = f"error: {str(e)}"
-        
-        return jsonify({
-            'status': 'healthy',
-            'timestamp': datetime.now().isoformat(),
-            'stripe': 'ok',
-            'openai': openai_status
-        })
-    except Exception as e:
-        return jsonify({
-            'status': 'unhealthy',
-            'error': str(e),
-            'timestamp': datetime.now().isoformat()
-        }), 500
+    """Health check endpoint."""
+    errors = []
+    component_status = {'stripe': 'ok', 'openai': 'ok', 'geoip_db': 'ok'}
 
-@app.route('/generate-document', methods=['POST'])
-def handle_document_generation():
+    # Check Stripe
     try:
-        # For direct document generation (bypassing payment in development)
-        if os.getenv("BYPASS_PAYMENT", "false").lower() == "true":
-            return generate_document(request.form)
-        else:
-            return jsonify({'error': 'Payment required'}), 402
+        stripe.Account.retrieve()
     except Exception as e:
-        app.logger.error(f"Error generating document: {str(e)}")
-        return jsonify({'error': f'Failed to generate document: {str(e)}'}), 500
+        component_status['stripe'] = 'error'
+        errors.append(f"Stripe connection error: {str(e)}")
+        app.logger.error("Health Check: Stripe connection failed.")
+
+    # Check OpenAI
+    try:
+        # More robust check: list models or make a cheap API call if necessary
+        client.models.list(timeout=5)
+    except Exception as e:
+        component_status['openai'] = 'error'
+        errors.append(f"OpenAI connection error: {str(e)}")
+        app.logger.error("Health Check: OpenAI connection failed.")
+
+    # Check GeoIP Database
+    if not os.path.exists(GEOLITE2_DB_PATH):
+         component_status['geoip_db'] = 'error'
+         errors.append("GeoLite2 database file missing.")
+         app.logger.error("Health Check: GeoIP DB missing.")
+
+    status = 'unhealthy' if errors else 'healthy'
+    response = {
+        'status': status,
+        'timestamp': datetime.now().isoformat(),
+        'components': component_status
+    }
+    if errors:
+        response['errors'] = errors
+
+    http_status = 503 if status == 'unhealthy' else 200
+    return jsonify(response), http_status
+
+
+# --- Document Generation (Core Logic) ---
+@app.route('/generate-document', methods=['POST'])
+@limiter.limit("5 per minute") # Limit direct generation calls if bypassing payment
+def handle_document_generation():
+    """Handle direct document generation request (e.g., for testing)."""
+    if os.getenv("BYPASS_PAYMENT", "false").lower() != "true":
+        return jsonify({'error': 'Payment required'}), 402
+
+    try:
+        app.logger.info("Handling direct document generation request.")
+        # Using the timeout wrapper here as well for consistency
+        document_result = generate_document_with_timeout(request.form)
+        return jsonify(document_result)
+
+    except TimeoutError:
+             app.logger.warning("Direct document generation timed out.")
+             return jsonify({
+                'status': 'processing',
+                'message': 'Document generation is taking longer than expected.'
+             }), 202 # Accepted
+    except Exception as e:
+        app.logger.error(f"Error in direct document generation: {str(e)}")
+        return jsonify({'error': f'Failed to generate document: An internal error occurred.'}), 500
+
 
 def generate_document(form_data):
+    """Generates the legal document using OpenAI."""
     try:
-        # Extract form data
+        # --- Extract and Validate Form Data ---
         document_type = form_data.get('document_type')
         business_name = form_data.get('business_name')
         business_type = form_data.get('business_type')
-        state = form_data.get('state')
+        # Use the 'jurisdiction' key if passed, else 'state' for backward compatibility
+        jurisdiction = form_data.get('jurisdiction', form_data.get('state'))
         industry = form_data.get('industry')
         protection_level = form_data.get('protection_level', '2')
-        
-        # Special clauses
-        clauses = []
-        if form_data.get('clause_confidentiality'):
-            clauses.append("Enhanced Confidentiality")
-        if form_data.get('clause_arbitration'):
-            clauses.append("Arbitration Provision")
-        if form_data.get('clause_termination'):
-            clauses.append("Advanced Termination Options")
-        if form_data.get('clause_ip'):
-            clauses.append("Intellectual Property Protection")
-        
         additional_instructions = form_data.get('additional_instructions', '')
-        
-        # Create prompt for OpenAI
-        prompt = f"""Generate a professional {DOCUMENT_TYPES.get(document_type, 'legal document')} for {business_name}, a {business_type} in the {industry} industry, operating in {state}.
 
-Protection Level: {protection_level} out of 3
+        if not all([document_type, business_name, business_type, jurisdiction, industry]):
+             missing = [k for k, v in locals().items() if k in ['document_type', 'business_name', 'business_type', 'jurisdiction', 'industry'] and not v]
+             raise ValueError(f"Missing required form fields: {', '.join(missing)}")
 
-Special Clauses to Include: {', '.join(clauses) if clauses else 'None'}
+        clauses = [
+            label for key, label in [
+                ('clause_confidentiality', "Enhanced Confidentiality"),
+                ('clause_arbitration', "Arbitration Provision"),
+                ('clause_termination', "Advanced Termination Options"),
+                ('clause_ip', "Intellectual Property Protection")
+            ] if form_data.get(key) # Check if checkbox key exists and is truthy
+        ]
 
-Additional Instructions: {additional_instructions}
+        doc_type_name = DOCUMENT_TYPES.get(document_type, 'legal document')
 
-**Formatting Guidelines:**
-- Use clear section headings in bold and all caps (e.g., **TERMS AND CONDITIONS**).
-- Use proper indentation and line spacing for readability.
-- Ensure signature fields are properly spaced and formatted as follows:
+        # --- Construct OpenAI Prompt ---
+        prompt = f"""Generate a professional {doc_type_name} for a business named "{business_name}".
 
-  **Signature:** ______________________  **Date:** _______________
+Business Details:
+- Type: {business_type}
+- Industry: {industry}
+- Governing Law/Jurisdiction: {jurisdiction} (Ensure the document is tailored for the laws of this jurisdiction)
 
-- Use bullet points for lists where appropriate.
-- Avoid overly dense paragraphs; break them up into short, digestible sections.
-- Use legal language but ensure clarity for business professionals.
+Document Requirements:
+- Protection Level: {protection_level}/3 (Adjust complexity and protective measures accordingly)
+- Special Clauses to Include: {', '.join(clauses) if clauses else 'Standard clauses appropriate for this document type'}
+- Additional Instructions: {additional_instructions if additional_instructions else 'None'}
 
-Format the document professionally with appropriate sections, headings, and legal language. Include all necessary legal provisions for this type of document in {state}.
+Formatting Guidelines:
+- Use clear, hierarchical section headings (e.g., using markdown #, ## or bold text).
+- Employ standard legal document structure (e.g., Parties, Recitals, Definitions, Operative Clauses, Boilerplate, Signatures).
+- Ensure proper spacing and indentation for readability.
+- Include placeholders for specific details where necessary (e.g., dates, addresses, specific values).
+- Format signature blocks clearly, including lines for signature, printed name, title (if applicable), and date. Example:
+
+  **Party A Signature:** ______________________
+  Printed Name: ______________________
+  Title: ______________________
+  Date: _______________
+
+Output:
+- Generate the full text of the legal document.
+- Use professional and legally appropriate language, suitable for the specified jurisdiction ({jurisdiction}).
+- Ensure clarity for business professionals.
 """
 
-        # Call OpenAI API with retry logic
-        max_retries = 3
-        retry_delay = 2  # seconds
-        
-        for attempt in range(max_retries):
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-4-turbo",  # Use a more reliable model
-                    messages=[
-                        {"role": "system", "content": "You are a legal document generator that creates professional, legally-sound documents tailored to specific business needs and jurisdictions."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    timeout=30,  # Shorter timeout to avoid worker timeouts
-                    max_tokens=4000  # Limit token count to speed up generation
-                )
-                
-                # Extract generated text
-                document_text = response.choices[0].message.content
-                break  # Success, exit the retry loop
-                
-            except Exception as e:
-                app.logger.error(f"OpenAI API error (attempt {attempt+1}/{max_retries}): {str(e)}")
-                
-                if attempt < max_retries - 1:
-                    # Not the last attempt, wait and retry
-                    time.sleep(retry_delay)
-                    retry_delay *= 2  # Exponential backoff
-                else:
-                    # Last attempt failed, raise the exception
-                    app.logger.error(f"All {max_retries} attempts to call OpenAI API failed")
-                    raise Exception(f"Failed to generate document after {max_retries} attempts: {str(e)}")
-        
-        # Generate a unique filename
+        app.logger.info(f"Generating {doc_type_name} for {business_name} in {jurisdiction}")
+
+        # --- Call OpenAI API ---
+        # Use a reasonable timeout for the API call itself
+        openai_timeout = 25 # seconds
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4-turbo", # Consider flexibility via env var: os.getenv("OPENAI_MODEL", "gpt-4-turbo")
+                messages=[
+                    {"role": "system", "content": "You are an expert legal document generation assistant. Create professional, clear, and legally appropriate documents tailored to user specifications and jurisdiction."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.5, # Adjust creativity vs predictability
+                max_tokens=4000, # Max possible for turbo, adjust if needed
+                timeout=openai_timeout
+            )
+            document_text = response.choices[0].message.content
+            app.logger.info("Successfully received response from OpenAI.")
+
+        except Exception as e:
+             # Catch specific OpenAI errors if needed (e.g., RateLimitError, AuthenticationError)
+             app.logger.error(f"OpenAI API call failed: {str(e)}")
+             # Re-raise a more generic exception to be caught by the wrapper/caller
+             raise Exception(f"OpenAI API Error: {str(e)}") from e
+
+
+        # --- Generate PDF ---
         unique_id = uuid.uuid4().hex[:8]
-        filename = f"{document_type}_{unique_id}.pdf"
+        # Sanitize document_type for filename
+        safe_doc_type = "".join(c if c.isalnum() else "_" for c in document_type)
+        filename = f"{safe_doc_type}_{unique_id}.pdf"
         filepath = os.path.join(DOWNLOAD_FOLDER, filename)
-        
-        # Ensure directory exists
-        os.makedirs(os.path.dirname(filepath), exist_ok=True)
-        
-        # Create PDF
-        create_pdf(document_text, filepath, business_name, DOCUMENT_TYPES.get(document_type, "Legal Document"))
-        
-        # Return success response
+
+        app.logger.info(f"Generating PDF: {filepath}")
+        create_pdf(document_text, filepath, business_name, doc_type_name, jurisdiction)
+        app.logger.info(f"PDF created successfully: {filename}")
+
         return {
             'success': True,
-            'download_url': f'/download/{filename}'
+            'download_url': url_for('download_file', filename=filename, _external=False) # Relative URL
         }
-    
+
+    except ValueError as ve:
+         # Handle validation errors specifically
+         app.logger.error(f"Form validation error during document generation: {str(ve)}")
+         raise ve # Re-raise to potentially return 400 Bad Request
     except Exception as e:
-        app.logger.error(f"OpenAI API error: {str(e)}")
-        raise Exception(f"Failed to generate document: {str(e)}")
+        # Catch all other errors during generation (e.g., PDF creation failure)
+        app.logger.error(f"Core document generation process failed: {str(e)}")
+        # Re-raise the exception to be handled by the calling function (e.g., payment_success)
+        # This avoids returning a success=False dict directly from here
+        raise Exception(f"Document Generation Failed: {str(e)}") from e
 
-def create_pdf(text, filepath, business_name, document_type):
-    # Create PDF document
-    doc = SimpleDocTemplate(filepath, pagesize=letter,
-                          rightMargin=72, leftMargin=72,
-                          topMargin=72, bottomMargin=72)
-    styles = getSampleStyleSheet()
-    
-    # Custom styles
-    title_style = ParagraphStyle(
-        'Title',
-        parent=styles['Heading1'],
-        fontSize=16,
-        alignment=TA_CENTER,
-        spaceAfter=20,
-        textColor=colors.navy,
-        fontName='Helvetica-Bold'
-    )
-    
-    normal_style = ParagraphStyle(
-        'Normal',
-        parent=styles['Normal'],
-        fontSize=11,
-        alignment=TA_JUSTIFY,
-        firstLineIndent=20,
-        leading=14,
-        spaceBefore=6,
-        spaceAfter=6
-    )
-    
-    header_style = ParagraphStyle(
-        'Header',
-        parent=styles['Heading2'],
-        fontSize=13,
-        spaceAfter=10,
-        spaceBefore=15,
-        textColor=colors.navy,
-        fontName='Helvetica-Bold',
-        borderWidth=1,
-        borderColor=colors.lightgrey,
-        borderPadding=5,
-        borderRadius=2
-    )
-    
-    # Build document content
-    content = []
-    
-    # Add title
-    content.append(Paragraph(f"{document_type.upper()}", title_style))
-    content.append(Paragraph(f"For: {business_name}", title_style))
-    content.append(Spacer(1, 20))
-    
-    # Add date with better formatting
-    date_style = ParagraphStyle(
-        'Date',
-        parent=styles['Normal'],
-        fontSize=11,
-        alignment=TA_RIGHT,
-        textColor=colors.darkgrey
-    )
-    content.append(Paragraph(f"Date: {datetime.now().strftime('%B %d, %Y')}", date_style))
-    content.append(Spacer(1, 20))
-    
-    # Process the text into paragraphs
-    paragraphs = text.split('\n')
-    for para in paragraphs:
-        if para.strip():
-            # Handle markdown-style headers (# Header)
-            if para.strip().startswith('#'):
-                header_text = para.replace('#', '').strip()
-                content.append(Paragraph(header_text, header_style))
-            # Handle all-caps headers (HEADER)
-            elif para.strip().isupper() and len(para.strip()) > 3:
-                content.append(Paragraph(para.strip(), header_style))
-            # Handle bullet points
-            elif para.strip().startswith('•') or para.strip().startswith('-') or para.strip().startswith('*'):
-                bullet_style = ParagraphStyle(
-                    'Bullet',
-                    parent=normal_style,
-                    leftIndent=30,
-                    firstLineIndent=0,
-                    spaceBefore=3,
-                    spaceAfter=3
-                )
-                content.append(Paragraph(para.strip(), bullet_style))
-            # Handle signature lines
-            elif "signature" in para.lower() or "sign" in para.lower() or "date:" in para.lower():
-                sig_style = ParagraphStyle(
-                    'Signature',
-                    parent=normal_style,
-                    spaceBefore=15,
-                    spaceAfter=15
-                )
-                content.append(Paragraph(para, sig_style))
-            # Regular paragraph
-            else:
-                content.append(Paragraph(para, normal_style))
-            
-            # Add appropriate spacing
-            if para.strip().startswith('#') or para.strip().isupper():
-                content.append(Spacer(1, 10))
-            else:
-                content.append(Spacer(1, 6))
-    
-    # Build the PDF
-    doc.build(content)
 
-@app.route('/download/<filename>')
+def create_pdf(text, filepath, business_name, document_type, jurisdiction):
+    """Creates a PDF document from the generated text using ReportLab."""
+    try:
+        doc = SimpleDocTemplate(filepath, pagesize=letter,
+                              rightMargin=72, leftMargin=72,
+                              topMargin=72, bottomMargin=18) # Reduced bottom margin for page num
+        styles = getSampleStyleSheet()
+
+        # --- Define Paragraph Styles ---
+        title_style = ParagraphStyle(
+            'DocTitle', parent=styles['h1'], fontSize=16, alignment=TA_CENTER,
+            spaceAfter=6, textColor=colors.HexColor('#1a237e') # Dark blue
+        )
+        subtitle_style = ParagraphStyle(
+             'DocSubtitle', parent=styles['h2'], fontSize=12, alignment=TA_CENTER,
+             spaceAfter=20, textColor=colors.darkgrey
+        )
+        normal_style = ParagraphStyle(
+            'BodyText', parent=styles['Normal'], fontSize=10, alignment=TA_JUSTIFY,
+            leading=14, spaceBefore=4, spaceAfter=4, firstLineIndent=18
+        )
+        heading1_style = ParagraphStyle(
+             'Heading1', parent=styles['h2'], fontSize=13, alignment=TA_LEFT,
+             spaceBefore=12, spaceAfter=6, textColor=colors.HexColor('#1a237e'),
+             fontName='Helvetica-Bold', keepWithNext=1 # Keep heading with next paragraph
+        )
+        heading2_style = ParagraphStyle(
+             'Heading2', parent=styles['h3'], fontSize=11, alignment=TA_LEFT,
+             spaceBefore=10, spaceAfter=4, textColor=colors.HexColor('#283593'), # Slightly lighter blue
+             fontName='Helvetica-Bold', keepWithNext=1
+        )
+        bullet_style = ParagraphStyle(
+             'Bullet', parent=normal_style, firstLineIndent=0, leftIndent=36,
+             spaceBefore=2, spaceAfter=2
+        )
+        signature_style = ParagraphStyle(
+            'Signature', parent=styles['Normal'], fontSize=10, alignment=TA_LEFT,
+            leading=16, spaceBefore=15, spaceAfter=15, leftIndent=0
+        )
+        footer_style = ParagraphStyle(
+            'Footer', parent=styles['Normal'], fontSize=8, alignment=TA_CENTER,
+             textColor=colors.grey
+        )
+
+        content = []
+
+        # --- Add Title and Subtitle ---
+        content.append(Paragraph(document_type.upper(), title_style))
+        content.append(Paragraph(f"For: {business_name}", subtitle_style))
+        # content.append(Paragraph(f"Governing Law: {jurisdiction}", subtitle_style)) # Optional
+        content.append(Spacer(1, 20))
+
+        # --- Process Document Text ---
+        # Simple approach: split by lines, identify potential headings/bullets
+        lines = text.splitlines()
+        for line in lines:
+            stripped_line = line.strip()
+            if not stripped_line:
+                # Preserve intentional blank lines as small spacers if needed, or skip
+                # content.append(Spacer(1, 6))
+                continue
+
+            # Basic Heuristic Formatting (Improve if needed based on common LLM output)
+            if stripped_line.isupper() and len(stripped_line) > 3 and len(stripped_line) < 60: # Likely Heading 1
+                 content.append(Paragraph(stripped_line, heading1_style))
+            elif stripped_line.startswith(("**", "# ")): # Markdown H1/Bold or potential H2
+                 content.append(Paragraph(stripped_line.replace("**","").replace("# ",""), heading1_style))
+            elif stripped_line.startswith(("## ", "***")): # Markdown H2 / H3
+                 content.append(Paragraph(stripped_line.replace("## ","").replace("***",""), heading2_style))
+            elif stripped_line.startswith(('-', '*', '•', '+')): # Bullets
+                 # Add the bullet character manually for consistency if needed: f"• {stripped_line[1:].strip()}"
+                 content.append(Paragraph(stripped_line, bullet_style))
+            elif "signature:" in stripped_line.lower() or "printed name:" in stripped_line.lower() \
+                 or "date:" in stripped_line.lower() or "title:" in stripped_line.lower() \
+                 or "____________" in stripped_line: # Signature Lines
+                 # Replace multiple underscores with a fixed line for better PDF rendering
+                 line_for_pdf = line.replace('______________________', '_' * 30).replace('_______________','_' * 20)
+                 content.append(Paragraph(line_for_pdf.replace("\t", "    "), signature_style)) # Preserve spacing, replace tabs
+            else: # Normal paragraph
+                 content.append(Paragraph(stripped_line, normal_style))
+
+        # --- Build PDF with Page Numbers ---
+        def add_page_number(canvas, doc):
+             page_num = canvas.getPageNumber()
+             text = f"Page {page_num}"
+             canvas.saveState()
+             canvas.setFont('Helvetica', 8)
+             canvas.setFillColor(colors.grey)
+             canvas.drawCentredString(letter[0]/2.0, 30, text) # Position near bottom center
+             canvas.restoreState()
+
+        doc.build(content, onFirstPage=add_page_number, onLaterPages=add_page_number)
+
+    except Exception as e:
+        app.logger.error(f"Failed to create PDF {filepath}: {str(e)}")
+        # Re-raise the exception so generate_document knows PDF creation failed
+        raise Exception(f"PDF Generation Error: {str(e)}") from e
+
+
+# --- Download and Static Routes ---
+@app.route('/download/<path:filename>') # Use path converter for safety
 def download_file(filename):
+    """Serve generated documents for download."""
+    # Basic security: ensure filename doesn't try to escape the download folder
+    if '..' in filename or filename.startswith('/'):
+         app.logger.warning(f"Attempted directory traversal in download: {filename}")
+         return "Invalid filename", 400
+
+    safe_path = os.path.join(DOWNLOAD_FOLDER, filename)
+    # Double check it's still within the intended folder
+    if not os.path.normpath(safe_path).startswith(os.path.normpath(DOWNLOAD_FOLDER)):
+         app.logger.error(f"Download path escape detected: {filename}")
+         return "Invalid path", 400
+
+    if not os.path.exists(safe_path):
+        app.logger.warning(f"Download requested for non-existent file: {filename}")
+        return "File not found", 404
+
+    app.logger.info(f"Serving file for download: {filename}")
     return send_from_directory(DOWNLOAD_FOLDER, filename, as_attachment=True)
 
-# Route to serve favicon
+
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    """Serve the favicon."""
+    return send_from_directory(STATIC_FOLDER, 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+
+# --- Main Execution ---
 if __name__ == '__main__':
+    # Use environment variable for port, default to 5000 for local dev
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-    
-# Add Gunicorn configuration for Heroku
-# This is used when the app is deployed to Heroku
-# The timeout is increased to 120 seconds to allow for longer document generation times
-# The worker class is set to 'sync' to ensure proper handling of long-running requests
-# The number of workers is set to 3 to handle multiple concurrent requests
-# The max requests is set to 1000 to prevent memory leaks
-# The preload app option is set to True to load the app before forking workers
-# The worker timeout is set to 120 seconds to prevent worker timeouts during document generation
-# Note: These settings are only used when running with Gunicorn on Heroku
-# For local development, the app.run() method is used
-# These settings can be overridden by setting environment variables
-# For example: GUNICORN_TIMEOUT=180 gunicorn app:app
-# See: https://docs.gunicorn.org/en/stable/settings.html
-#
-# worker_class = 'sync'
-# workers = 3
-# max_requests = 1000
-# preload_app = True
-# timeout = 120 
+    # Use debug=True only for local development, controlled by env var
+    debug_mode = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
+
+# Gunicorn settings comments remain relevant for deployment

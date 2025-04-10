@@ -9,3 +9,5 @@ flask-cors==4.0.0
 flask-limiter==3.5.0
 stripe==7.13.0
 Flask-Babel==3.0.0
+geoip2==4.8.0
+maxminddb==2.5.2

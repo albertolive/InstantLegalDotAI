@@ -44,4 +44,7 @@ ENV/
 # OS specific
 .DS_Store
 Thumbs.db
-*.pdf 
+*.pdf
+
+# GeoIP2 Database
+GeoLite2-Country.mmdb 

@@ -927,72 +927,11 @@
               </div>
 
               <div class="form-group">
-                <label for="state">{{ _('State/Jurisdiction') }}</label>
-                <select id="state" name="state" required>
-                  <option value="">{{ _('Select state...') }}</option>
-                  <option value="Alabama">{{ _('Alabama') }}</option>
-                  <option value="Alaska">{{ _('Alaska') }}</option>
-                  <option value="Arizona">{{ _('Arizona') }}</option>
-                  <option value="Arkansas">{{ _('Arkansas') }}</option>
-                  <option value="California">{{ _('California') }}</option>
-                  <option value="Colorado">{{ _('Colorado') }}</option>
-                  <option value="Connecticut">{{ _('Connecticut') }}</option>
-                  <option value="Delaware">{{ _('Delaware') }}</option>
-                  <option value="Florida">{{ _('Florida') }}</option>
-                  <option value="Georgia">{{ _('Georgia') }}</option>
-                  <option value="Hawaii">{{ _('Hawaii') }}</option>
-                  <option value="Idaho">{{ _('Idaho') }}</option>
-                  <option value="Illinois">{{ _('Illinois') }}</option>
-                  <option value="Indiana">{{ _('Indiana') }}</option>
-                  <option value="Iowa">{{ _('Iowa') }}</option>
-                  <option value="Kansas">{{ _('Kansas') }}</option>
-                  <option value="Kentucky">{{ _('Kentucky') }}</option>
-                  <option value="Louisiana">{{ _('Louisiana') }}</option>
-                  <option value="Maine">{{ _('Maine') }}</option>
-                  <option value="Maryland">{{ _('Maryland') }}</option>
-                  <option value="Massachusetts">
-                    {{ _('Massachusetts') }}
-                  </option>
-                  <option value="Michigan">{{ _('Michigan') }}</option>
-                  <option value="Minnesota">{{ _('Minnesota') }}</option>
-                  <option value="Mississippi">{{ _('Mississippi') }}</option>
-                  <option value="Missouri">{{ _('Missouri') }}</option>
-                  <option value="Montana">{{ _('Montana') }}</option>
-                  <option value="Nebraska">{{ _('Nebraska') }}</option>
-                  <option value="Nevada">{{ _('Nevada') }}</option>
-                  <option value="New Hampshire">
-                    {{ _('New Hampshire') }}
-                  </option>
-                  <option value="New Jersey">{{ _('New Jersey') }}</option>
-                  <option value="New Mexico">{{ _('New Mexico') }}</option>
-                  <option value="New York">{{ _('New York') }}</option>
-                  <option value="North Carolina">
-                    {{ _('North Carolina') }}
-                  </option>
-                  <option value="North Dakota">{{ _('North Dakota') }}</option>
-                  <option value="Ohio">{{ _('Ohio') }}</option>
-                  <option value="Oklahoma">{{ _('Oklahoma') }}</option>
-                  <option value="Oregon">{{ _('Oregon') }}</option>
-                  <option value="Pennsylvania">{{ _('Pennsylvania') }}</option>
-                  <option value="Rhode Island">{{ _('Rhode Island') }}</option>
-                  <option value="South Carolina">
-                    {{ _('South Carolina') }}
-                  </option>
-                  <option value="South Dakota">{{ _('South Dakota') }}</option>
-                  <option value="Tennessee">{{ _('Tennessee') }}</option>
-                  <option value="Texas">{{ _('Texas') }}</option>
-                  <option value="Utah">{{ _('Utah') }}</option>
-                  <option value="Vermont">{{ _('Vermont') }}</option>
-                  <option value="Virginia">{{ _('Virginia') }}</option>
-                  <option value="Washington">{{ _('Washington') }}</option>
-                  <option value="West Virginia">
-                    {{ _('West Virginia') }}
-                  </option>
-                  <option value="Wisconsin">{{ _('Wisconsin') }}</option>
-                  <option value="Wyoming">{{ _('Wyoming') }}</option>
-                  <option value="District of Columbia">
-                    {{ _('District of Columbia') }}
-                  </option>
+                <label for="state">{{ _('Jurisdiction') }}:</label>
+                <select class="form-control" id="state" name="state" required>
+                  {% for code, name in jurisdictions.items() %}
+                  <option value="{{ name }}">{{ name }}</option>
+                  {% endfor %}
                 </select>
               </div>
 
